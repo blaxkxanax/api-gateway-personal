@@ -1,0 +1,3691 @@
+openapi: 3.0.0
+info:
+  title: API Gateway
+  description: API Gateway with OAuth2.0 Client Credentials Flow
+  version: 2.0.0
+  x-postman-oauth2-client-credentials-in-body: true
+servers:
+  - url: https://api.provident.ae/v2
+    description: Production server
+  - url: https://api.noxum.dev/v2
+    description: Development server
+  - url: http://localhost:9000
+    description: Local development
+x-logo:
+  url: 'https://public.provident.ae/provident-logo.png'
+  altText: Provident Logo
+x-postman-oauth2-client-credentials-in-body: true
+paths:
+  /oauth2/token:
+    post:
+      tags:
+        - oauth2
+      summary: Get access token
+      operationId: getToken
+      security: []  # No security for token endpoint
+      x-auth-type: "OAuth 2.0"
+      x-client-authentication: "body"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  enum: [client_credentials]
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+                scope:
+                  type: string
+                  example: "portal:profile:read portal:dashboard:read"
+              required:
+                - grant_type
+                - client_id
+                - client_secret
+      responses:
+        '200':
+          description: Token response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuth2Response'
+        '401':
+          description: Invalid client credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuth2Error'
+  /oauth2/clients:
+    post:
+      tags:
+        - oauth2-clients
+      summary: Create a new OAuth client
+      security:
+        - oauth2: ['admin:clients:create']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateClientRequest'
+      responses:
+        '201':
+          description: Client created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+    get:
+      tags:
+        - oauth2-clients
+      summary: List all OAuth clients
+      security:
+        - oauth2: ['admin:clients:read']
+      responses:
+        '200':
+          description: List of OAuth clients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientResponse'
+  /oauth2/clients/{clientId}:
+    parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Client ID
+    get:
+      tags:
+        - oauth2-clients
+      summary: Get an OAuth client by Client ID
+      security:
+        - oauth2: ['admin:clients:read']
+      responses:
+        '200':
+          description: OAuth client details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+    put:
+      tags:
+        - oauth2-clients
+      summary: Update an OAuth client by Client ID
+      security:
+        - oauth2: ['admin:clients:update']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateClientRequest'
+      responses:
+        '200':
+          description: Client updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+    delete:
+      tags:
+        - oauth2-clients
+      summary: Deactivate an OAuth client by Client ID (sets isActive=false)
+      security:
+        - oauth2: ['admin:clients:delete']
+      responses:
+        '200':
+          description: Client deactivated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+  /oauth2/clients/{clientId}/rotate-secret:
+    parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Client ID
+    post:
+      tags:
+        - oauth2-clients
+      summary: Rotate client secret by Client ID
+      security:
+        - oauth2: ['admin:clients:update']
+      responses:
+        '200':
+          description: Client secret rotated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clientSecret:
+                    type: string
+  /apps/portal/data/users:
+    get:
+      tags:
+        - portal
+      summary: Get user data and activity from Telegram DB
+      description: >
+        Retrieves user details from 'users' or 'users_deleted' tables and 
+        summarized activity from 'found_units' and 'missing_units' based on Bitrix ID. 
+        Allows filtering by date and can provide a full or summarized activity report.
+      security:
+        - oauth2: ['portal:data:user:read']
+      parameters:
+        - name: bitrix_id
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64 # Assuming bitrix_id can be large
+          description: The Bitrix ID of the user.
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            pattern: '^\\\\d{4}-\\\\d{2}-\\\\d{2}$'
+          description: Start date for activity search (YYYY-MM-DD).
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            pattern: '^\\\\d{4}-\\\\d{2}-\\\\d{2}$'
+          description: End date for activity search (YYYY-MM-DD).
+        - name: summary
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ['t', 'f']
+            default: 'f'
+          description: >
+            If 't' (true), only the period_summary for units will be returned. 
+            If 'f' (false) or omitted, both by_date and period_summary will be returned.
+      responses:
+        '200':
+          description: User data and activity summary retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortalUserDataResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError' # For invalid date formats or other bad inputs
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: User with the specified Bitrix ID not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse' # Generic error response
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503': # Service Unavailable
+          description: Telegram Database connection not available.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /apps/portal/data/pf/locations/search:
+    get:
+      tags:
+        - portal
+      summary: Search PF locations data
+      security:
+        - oauth2: ['portal:data:pf:read']
+      parameters:
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+          description: City name (defaults to Dubai)
+        - name: community
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Community name
+        - name: sub_community
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Sub-community name
+        - name: tower
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Tower name
+      responses:
+        '200':
+          description: Locations found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Type of match (e.g., "Exact matches in specified level")
+                        matches:
+                          type: array
+                          items:
+                            type: object
+                        searchContext:
+                          type: object
+                          properties:
+                            providedIn:
+                              type: string
+                              description: Level where search was requested (community, sub_community, tower)
+                            foundIn:
+                              type: string
+                              description: Level where matches were found
+                            matchType:
+                              type: string
+                              enum: [exact, partial]
+                              description: Whether the match was exact or partial
+                example:
+                  success: true
+                  data:
+                    - type: "Exact matches in specified level"
+                      matches:
+                        - Dubai:
+                            "Mohammed Bin Rashid City":
+                              "The Cube Residences": {}
+                      searchContext:
+                        providedIn: "community"
+                        foundIn: "community"
+                        matchType: "exact"
+        '400':
+          description: Bad request - no search criteria provided
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                example:
+                  success: false
+                  message: "At least one search parameter (community, sub_community, or tower) must be provided"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+  /apps/portal/data/pf/locations/search/telegram:
+    get:
+      tags:
+        - portal
+      summary: Search PF locations data for Telegram
+      security:
+        - oauth2: ['portal:data:pf:read']
+      parameters:
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+          description: City name (defaults to Dubai)
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Search query term to look up in community, sub-community, or tower names
+        - name: level
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: |
+            Search level depth:
+            1: search in community only
+            2: search in community and sub-community
+            3: search in community, sub-community, and tower
+      responses:
+        '200':
+          description: Locations found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TelegramLocation'
+                example:
+                  success: true
+                  data:
+                    - Dubai:
+                        "Mohammed Bin Rashid City":
+                          "The Cube Residences": {}
+        '400':
+          description: Bad request - missing required parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                example:
+                  success: false
+                  message: "Query (q) and level parameters are required"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+  /oauth2/introspect:
+    post:
+      tags:
+        - oauth2-tokens
+      summary: Introspect a token
+      security:
+        - oauth2: ['oauth2:introspect']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenIntrospectionRequest'
+      responses:
+        '200':
+          description: Token introspection result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenIntrospectionResponse'
+  /oauth2/revoke:
+    post:
+      tags:
+        - oauth2-tokens
+      summary: Revoke a token
+      security:
+        - oauth2: ['oauth2:revoke']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRevocationRequest'
+      responses:
+        '200':
+          description: Token revoked successfully
+  /apps/bitrix/dev.rest.match/user:
+    get:
+      tags:
+        - bitrix-match
+      summary: Get matched user from Bitrix24
+      security:
+        - oauth2: ['crm:user:read']
+      parameters:
+        - name: active
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Filter by active status
+        - name: email
+          in: query
+          required: false
+          schema:
+            type: string
+            format: email
+          description: Filter by email address
+        - name: id
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Filter by user ID
+        - name: start
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Pagination start index
+      responses:
+        '200':
+          description: Returns matched user data from Bitrix24
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+  /apps/bitrix/crm/lead:
+    get:
+      tags:
+        - bitrix-leads
+      summary: Get lead from Bitrix24
+      security:
+        - oauth2: ['crm:lead:read']
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: Lead ID
+      responses:
+        '200':
+          description: Returns lead data from Bitrix24
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+  /apps/bitrix/crm/lead/product_rows:
+    get:
+      tags:
+        - bitrix-leads
+      summary: Get lead product rows from Bitrix24
+      security:
+        - oauth2: ['crm:lead:read']
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: Lead ID
+      responses:
+        '200':
+          description: Returns lead product rows data from Bitrix24
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+  /apps/bitrix/dev.rest.match/lead.add:
+    post:
+      tags:
+        - bitrix-leads
+      summary: Create a new lead in Bitrix24
+      security:
+        - oauth2: ['crm:lead:write']
+      parameters:
+        - name: "fields[NAME]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Full Name
+        - name: "fields[PHONE][0][VALUE]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: |
+            Phone number - must include + prefix. 
+            IMPORTANT: Either Phone or Email must be provided for the lead to be valid.
+        - name: "fields[EMAIL][0][VALUE]"
+          in: query
+          required: false
+          schema:
+            type: string
+            format: email
+          description: |
+            Email address. 
+            IMPORTANT: Either Email or Phone must be provided for the lead to be valid.
+        - name: "fields[UF_CRM_*]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: |
+            This endpoint accepts ANY query parameters with the format fields[FIELD_NAME].
+            All parameters will be passed directly to Bitrix24.
+            Examples include fields[UF_CRM_1671193833], fields[SOURCE_ID], etc.
+        - name: "fields[UF_CRM_1668678672905]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Original Source List - e.g. WhatsApp, AdChina, etc.
+        - name: "fields[UF_CRM_1670579940556]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Lead Type - e.g. Primary Buyer, Secondary Buyer, etc.
+        - name: "fields[ASSIGNED_BY_ID]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Responsible Person - email format
+        - name: "fields[UF_CRM_64AEB0AA71C9B]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Domain Source - e.g. Providentestate Website, etc.
+        - name: "fields[UF_CRM_1694427534]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Include into round-robin 1 - accepts 0 or 1
+        - name: "fields[SOURCE_ID]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Source - e.g. Agent creation, Personal Campaign, etc.
+        - name: "fields[UF_CRM_1693214140]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Event Type - e.g. Submit Form, Phone Click, etc.
+        - name: "fields[UF_CRM_1669720090012]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Platform
+        - name: "fields[UF_CRM_1693212768]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Marketing Type - accepts Paid or Organic
+        - name: "fields[UF_CRM_1669724817221]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: URL
+        - name: "fields[UF_CRM_1671264262]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Property Type (Marketing) - e.g. Apartment, Hotel Apartment, etc.
+        - name: "fields[UF_CRM_FULL_ADDRESS]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Full Address
+        - name: "fields[UF_CRM_1669724702692]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Portal Ref #
+        - name: "fields[UF_CRM_1671193833]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Campaign Name (to use)
+        - name: "fields[UF_CRM_LEAD_CAMPAIGN_NAME]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Campaign Name (to use) SPA
+        - name: "fields[UF_CRM_1671263698]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Developer Name
+        - name: "fields[UF_CRM_1668583816018]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Area
+        - name: "fields[UF_CRM_1698317669]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "[integrately] include to RR - e.g. Developer distribution, etc."
+        - name: "fields[UTM]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: UTM parameters
+        - name: "fields[UF_CRM_1683112010881]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Google Click ID GCLID
+        - name: "fields[UF_CRM_1691152540]"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Project/Tower name
+      responses:
+        '200':
+          description: Lead created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request - validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  statusCode:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+  /apps/bitrix/crm/product:
+    get:
+      tags:
+        - bitrix-products
+      summary: Get product from Bitrix24
+      security:
+        - oauth2: ['crm:property:read']
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: Product ID
+      responses:
+        '200':
+          description: Returns product data from Bitrix24
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+  /apps/bitrix/crm/item:
+    get:
+      tags:
+        - bitrix-items
+      summary: Get CRM item from Bitrix24
+      security:
+        - oauth2: ['crm:item:read']
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: Item ID
+        - name: entityTypeId
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: Entity Type ID
+        - name: categoryId
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: |
+            Category ID - AKA Pipeline ID. This will be passed as fields[categoryId] to Bitrix24.
+            This parameter is optional.
+      responses:
+        '200':
+          description: Returns CRM item data from Bitrix24
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+    post:
+      tags:
+        - bitrix-items
+      summary: Create a new CRM item in Bitrix24
+      security:
+        - oauth2: ['crm:item:write']
+      parameters:
+        - name: entityTypeId
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: Entity Type ID
+        - name: categoryId
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: |
+            Category ID - AKA Pipeline ID. This will be passed as fields[categoryId] to Bitrix24.
+            This parameter is optional.
+        - name: "ufCrm_* i.e. (ufCrm8_1738662524610)"
+          in: query
+          required: false
+          schema:
+            type: string
+          description: |
+            This endpoint accepts ANY query parameters.
+            All extra parameters will be wrapped in fields[] and passed directly to Bitrix24.
+            Examples: ufCrm8_1738662524610, TITLE, COMPANY_ID, etc.
+      responses:
+        '200':
+          description: CRM item created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+  /apps/dynamics/employee:
+    get:
+      tags:
+        - dynamics
+      summary: Get all employees
+      security:
+        - oauth2: ['dynamics:employee:read']
+      responses:
+        '200':
+          description: Returns all employees
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+    post:
+      tags:
+        - dynamics
+      summary: Create new employee
+      security:
+        - oauth2: ['dynamics:employee:create']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: Employee created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+
+  /apps/dynamics/employee/{no}:
+    parameters:
+      - name: no
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Employee No
+    get:
+      tags:
+        - dynamics
+      summary: Get employee by No
+      security:
+        - oauth2: ['dynamics:employee:read']
+      responses:
+        '200':
+          description: Returns employee data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+    patch:
+      tags:
+        - dynamics
+      summary: Update employee
+      security:
+        - oauth2: ['dynamics:employee:update']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeUpdate'
+      responses:
+        '200':
+          description: Employee updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+    delete:
+      tags:
+        - dynamics
+      summary: Delete employee
+      security:
+        - oauth2: ['dynamics:employee:delete']
+      responses:
+        '200':
+          description: Employee deleted successfully
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+  /apps/jumpcloud/users:
+    get:
+      tags:
+        - JumpCloud
+      summary: List all system users
+      description: Returns a list of all system users from JumpCloud
+      operationId: getSystemUsers
+      security:
+        - oauth2: ['jumpcloud:users:read']
+      parameters:
+        - name: limit
+          in: query
+          description: The number of records to return at once
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: skip
+          in: query
+          description: The offset into the records to return
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: sort
+          in: query
+          description: The space separated fields used to sort the collection
+          required: false
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: The space separated fields included in the returned records
+          required: false
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: A filter to apply to the query
+          required: false
+          schema:
+            type: string
+        - name: search
+          in: query
+          description: A search term to apply to the query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns all system users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SystemUser'
+
+  /apps/jumpcloud/groups:
+    get:
+      tags:
+        - JumpCloud
+      summary: List all user groups
+      description: Returns a list of all user groups from JumpCloud
+      operationId: getUserGroups
+      security:
+        - oauth2: ['jumpcloud:groups:read']
+      parameters:
+        - name: fields
+          in: query
+          description: The space separated fields included in the returned records
+          required: false
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: A filter to apply to the query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: The number of records to return at once
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: skip
+          in: query
+          description: The offset into the records to return
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: sort
+          in: query
+          description: The space separated fields used to sort the collection
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns all user groups
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserGroup'
+
+  /apps/jumpcloud/users/{userId}/memberof:
+    get:
+      tags:
+        - JumpCloud
+      summary: List the parent Groups of a User
+      description: Returns a list of all groups that a user is a member of
+      operationId: getUserMemberOf
+      security:
+        - oauth2: ['jumpcloud:users:read']
+      parameters:
+        - name: userId
+          in: path
+          description: ObjectID of the User
+          required: true
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: A filter to apply to the query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: The number of records to return at once
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: skip
+          in: query
+          description: The offset into the records to return
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: sort
+          in: query
+          description: The space separated fields used to sort the collection
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns all parent groups of the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GraphObjectWithPaths'
+
+  /apps/jumpcloud/bulk/userstates:
+    get:
+      tags:
+        - JumpCloud
+      summary: List Scheduled Userstate Change Jobs
+      description: Returns a list of scheduled user state change jobs from JumpCloud.
+      operationId: listBulkUserStates
+      security:
+        - oauth2: ['jumpcloud:users:read']
+      parameters:
+        - name: limit
+          in: query
+          description: The number of records to return at once. Default is 10, max is 100.
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: skip
+          in: query
+          description: The offset into the records to return. Default is 0.
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: filter
+          in: query
+          description: A filter to apply to the query.
+          required: false
+          schema:
+            type: string
+        - name: userid
+          in: query
+          description: The systemuser id to filter by.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JumpcloudScheduledUserstateResult'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - JumpCloud
+      summary: Create Scheduled Userstate Job
+      description: Creates a scheduled user state change job in JumpCloud.
+      operationId: createBulkUserStates
+      security:
+        - oauth2: ['jumpcloud:users:write']
+      requestBody:
+        required: true
+        description: Details for the scheduled state change job.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JumpcloudBulkScheduledStatechangeCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JumpcloudScheduledUserstateResult'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /apps/geniemap/emirates:
+    get:
+      tags:
+        - GenieMap
+      summary: Get all emirates
+      description: Get a list of all emirates in the UAE
+      security:
+        - oauth2: ['geniemap:emirates:read']
+      responses:
+        '200':
+          description: List of emirates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Emirate'
+
+  /apps/geniemap/emirates/{id}:
+    get:
+      tags:
+        - GenieMap
+      summary: Get emirate by ID
+      security:
+        - oauth2: ['geniemap:emirates:read']
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Emirate details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Emirate'
+
+  /apps/geniemap/districts:
+    get:
+      tags:
+        - GenieMap
+      summary: Get districts
+      description: |
+        Get a list of districts with optional filtering by name, cost level, and emirate.
+        Districts represent specific areas within emirates, each with its own cost level indicator.
+      security:
+        - oauth2: ['geniemap:districts:read']
+      parameters:
+        - name: q
+          in: query
+          description: The search bar for the area by name
+          schema:
+            type: string
+        - name: costLevel
+          in: query
+          description: Filter by the high cost of the area. The available values are from 1 to 5. Where 1 is the cheapest district and 5 is the most expensive
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+        - name: emirateId
+          in: query
+          description: Returns a list of districts located in the transferred emirate
+          schema:
+            type: integer
+            format: int64
+        - name: limit
+          in: query
+          description: |
+            The "limit" parameter limits the number of results returned in a single request, helping to ensure efficient 
+            data retrieval by controlling the volume of data. Accepted values typically range from 1 to 1,000, with a 
+            default value of 500, which facilitates pagination for large datasets.
+          schema:
+            type: integer
+            default: 500
+            minimum: 1
+        - name: offset
+          in: query
+          description: |
+            The "offset" parameter determines the starting point for retrieving results, allowing for pagination by 
+            skipping a specified number of entries in the data set.
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+      responses:
+        '200':
+          description: List of districts
+          content:
+            application/json:
+              schema:
+                type: array
+
+  /apps/geniemap/districts/{id}:
+    get:
+      tags:
+        - GenieMap
+      summary: Get district by ID
+      security:
+        - oauth2: ['geniemap:districts:read']
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: lang
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: District details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/District'
+
+  /apps/geniemap/projects:
+    get:
+      tags:
+        - GenieMap
+      summary: Get projects
+      description: |
+        Retrieve a list of real estate projects with comprehensive filtering options.
+        This endpoint allows filtering by various criteria including location, price range, area, 
+        developer, status, and more to help find specific properties in the UAE real estate market.
+      security:
+        - oauth2: ['geniemap:projects:read']
+      parameters:
+        - name: q
+          in: query
+          description: Search query for project name
+          schema:
+            type: string
+        - name: districtId
+          in: query
+          description: Filter projects by district ID
+          schema:
+            type: integer
+        - name: bbox
+          in: query
+          description: |
+            Limit results to only those contained within the supplied bounding box. 
+            Bounding boxes should be supplied as four numbers separated by commas, 
+            in north,south,east,west order. The bounding box cannot cross the 180th meridian.
+          schema:
+            type: string
+        - name: developerId
+          in: query
+          description: Filter projects by developer ID
+          schema:
+            type: integer
+        - name: sellerId
+          in: query
+          description: Filter projects by seller ID
+          schema:
+            type: integer
+        - name: serviceChargeFrom
+          in: query
+          description: Minimum service charge in AED per year
+          schema:
+            type: number
+        - name: serviceChargeTo
+          in: query
+          description: Maximum service charge in AED per year
+          schema:
+            type: number
+        - name: handoverFrom
+          in: query
+          description: |
+            Indicates the earliest expected date for the handover of units within the project, marking the beginning 
+            of the period during which properties will be ready for occupancy.
+          schema:
+            type: string
+            format: date
+        - name: handoverTo
+          in: query
+          description: |
+            Indicates the latest expected date for the handover of units within the project, marking the 
+            end of the period during which properties will be ready for occupancy.
+          schema:
+            type: string
+            format: date
+        - name: status
+          in: query
+          description: Filter by project status (available, sold_out, or launch)
+          schema:
+            type: string
+            enum: [available, sold_out, launch]
+        - name: eoiFrom
+          in: query
+          description: Minimum Expression of Interest amount
+          schema:
+            type: number
+        - name: eoiTo
+          in: query
+          description: Maximum Expression of Interest amount
+          schema:
+            type: number
+        - name: startOfSalesFrom
+          in: query
+          description: Start of sales period beginning date
+          schema:
+            type: string
+            format: date
+        - name: startOfSalesTo
+          in: query
+          description: Start of sales period end date
+          schema:
+            type: string
+            format: date
+        - name: minPrice
+          in: query
+          description: Minimum unit price in AED
+          schema:
+            type: number
+        - name: maxPrice
+          in: query
+          description: Maximum unit price in AED
+          schema:
+            type: number
+        - name: minArea
+          in: query
+          description: |
+            Filter to retrieve projects that include units with an area not less than the specified 
+            value in square feet.
+          schema:
+            type: number
+        - name: maxArea
+          in: query
+          description: |
+            Filter to retrieve projects that include units with an area not exceeding the 
+            specified value in square feet.
+          schema:
+            type: number
+        - name: unitTypeId
+          in: query
+          description: Filter by unit type (Apartments, Villa etc)
+          schema:
+            type: integer
+        - name: unitLayoutId
+          in: query
+          description: Filter by unit layout (1 BR, 2 BR etc)
+          schema:
+            type: integer
+        - name: minPricePerSqFt
+          in: query
+          description: Minimum price per square foot in AED
+          schema:
+            type: number
+        - name: maxPricePerSqFt
+          in: query
+          description: Maximum price per square foot in AED
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 500
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+
+  /apps/geniemap/projects/{id}:
+    get:
+      tags:
+        - GenieMap
+      summary: Get project by ID
+      security:
+        - oauth2: ['geniemap:projects:read']
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Project details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+
+  /apps/geniemap/developers:
+    get:
+      tags:
+        - GenieMap
+      summary: Get developers
+      description: |
+        Get a list of real estate developers with optional filtering by name and district.
+        This endpoint provides information about developers operating in the UAE real estate market.
+      security:
+        - oauth2: ['geniemap:developers:read']
+      parameters:
+        - name: q
+          in: query
+          description: The search bar for the developer by name
+          schema:
+            type: string
+        - name: districtId
+          in: query
+          description: Filters the developers that are in the selected district
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: |
+            The number of results to return in a single request. Default is 500.
+          schema:
+            type: integer
+            default: 500
+        - name: offset
+          in: query
+          description: |
+            The offset for pagination. Default is 0.
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of developers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Developer'
+
+  /apps/geniemap/developers/{id}:
+    get:
+      tags:
+        - GenieMap
+      summary: Get developer by ID
+      security:
+        - oauth2: ['geniemap:developers:read']
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: lang
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Developer details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Developer'
+
+  /apps/geniemap/amenities:
+    get:
+      tags:
+        - GenieMap
+      summary: Get amenities
+      description: |
+        Get a list of all available amenities that can be present in real estate projects.
+        Amenities represent various facilities and features available in properties.
+      security:
+        - oauth2: ['geniemap:amenities:read']
+      parameters:
+        - name: lang
+          in: query
+          description: The language to be used for the translated fields. The default language is en
+          schema:
+            type: string
+            default: en
+            enum: [en, ru]
+      responses:
+        '200':
+          description: List of amenities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Amenity'
+
+  /apps/geniemap/unit-types:
+    get:
+      tags:
+        - GenieMap
+      summary: Get unit types
+      description: |
+        Get a list of all available unit types (e.g., Apartment, Villa, Townhouse).
+        Unit types categorize properties by their general structure and style.
+      security:
+        - oauth2: ['geniemap:unit-types:read']
+      parameters:
+        - name: lang
+          in: query
+          description: The language to be used for the translated fields. The default language is en
+          schema:
+            type: string
+            default: en
+            enum: [en, ru]
+      responses:
+        '200':
+          description: List of unit types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UnitType'
+
+  /apps/geniemap/finishes:
+    get:
+      tags:
+        - GenieMap
+      summary: Get finishes
+      description: |
+        Get a list of all available finishing types for properties.
+        Finishes describe the level and quality of interior completion in properties.
+      security:
+        - oauth2: ['geniemap:finishes:read']
+      parameters:
+        - name: lang
+          in: query
+          description: The language to be used for the translated fields. The default language is en
+          schema:
+            type: string
+            default: en
+            enum: [en, ru]
+      responses:
+        '200':
+          description: List of finishes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Finish'
+
+  /apps/geniemap/unit-layouts:
+    get:
+      tags:
+        - GenieMap
+      summary: Get unit layouts
+      description: |
+        Get a list of all available unit layouts (e.g., Studio, 1 BR, 2 BR).
+        Unit layouts describe the internal configuration and number of rooms in properties.
+      security:
+        - oauth2: ['geniemap:unit-layouts:read']
+      parameters:
+        - name: lang
+          in: query
+          description: The language to be used for the translated fields. The default language is en
+          schema:
+            type: string
+            default: en
+            enum: [en, ru]
+      responses:
+        '200':
+          description: List of unit layouts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UnitLayout'
+
+  /apps/geniemap/projects/{projectId}/units:
+    get:
+      tags:
+        - GenieMap
+      summary: Get project units
+      description: |
+        Get a list of available units within a specific project with comprehensive filtering options.
+        This endpoint provides detailed information about individual units, including pricing, area, and availability.
+      security:
+        - oauth2: ['geniemap:units:read']
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: Project ID to get units from
+          schema:
+            type: integer
+        - name: minPrice
+          in: query
+          description: Minimum unit price in AED
+          schema:
+            type: number
+        - name: maxPrice
+          in: query
+          description: Maximum unit price in AED
+          schema:
+            type: number
+        - name: minArea
+          in: query
+          description: Minimum unit area in square feet
+          schema:
+            type: number
+        - name: maxArea
+          in: query
+          description: Maximum unit area in square feet
+          schema:
+            type: number
+        - name: layoutIds
+          in: query
+          description: Filter by layout IDs (comma-separated list)
+          schema:
+            type: string
+        - name: unitTypeIds
+          in: query
+          description: Filter by unit type IDs (comma-separated list)
+          schema:
+            type: string
+        - name: typeOfSale
+          in: query
+          description: Filter by type of sale (offPlan or resale)
+          schema:
+            type: string
+            enum: [offPlan, resale]
+        - name: limit
+          in: query
+          description: |
+            The number of results to return in a single request. Default is 500.
+          schema:
+            type: integer
+            default: 500
+        - name: offset
+          in: query
+          description: |
+            The offset for pagination. Default is 0.
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of project units
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Unit'
+
+  /apps/geniemap/users:
+    get:
+      tags:
+        - GenieMap
+      summary: Get users
+      description: |
+        Retrieves a list of users in the company.
+        This endpoint provides information about all users associated with the organization.
+      security:
+        - oauth2: ['geniemap:users:read']
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags:
+        - GenieMap
+      summary: Create user
+      description: |
+        Create a new user within the company.
+        This endpoint allows creating new user accounts with specified roles and permissions.
+      security:
+        - oauth2: ['geniemap:users:create']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /apps/geniemap/users/{id}:
+    put:
+      tags:
+        - GenieMap
+      summary: Update user
+      description: |
+        Update an existing user's information.
+        This endpoint allows modifying user details such as name, password, and contact information.
+      security:
+        - oauth2: ['geniemap:users:update']
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: User ID to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      tags:
+        - GenieMap
+      summary: Delete user
+      description: |
+        Delete a user from the company.
+        This endpoint permanently removes a user account and their associated data.
+      security:
+        - oauth2: ['geniemap:users:delete']
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: User ID to delete
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: User deleted
+
+  /apps/geniemap/images/upload:
+    post:
+      tags:
+        - GenieMap
+      summary: Upload image
+      description: |
+        Upload an image file to the server.
+        This endpoint accepts image files and returns a unique identifier and URL for accessing the uploaded file.
+        Allowed formats are PNG and JPEG, with a maximum file size of 5MB.
+      security:
+        - oauth2: ['geniemap:images:create']
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: |
+                    The image file to be uploaded. 
+                    Allowed MIME types: image/png, image/jpeg
+                    Allowed extensions: .png, .jpg, .jpeg
+                    Max file size: 5MB
+      responses:
+        '201':
+          description: Image uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+
+  /apps/bitrix/process/terminate/geniemap:
+    post:
+      tags:
+        - bitrix-process
+      summary: Terminate a user in GenieMap based on Bitrix ID or Email
+      description: Initiates the termination process for a user in GenieMap using either their Bitrix ID or email address. Requires 'bitrix:process:terminate' scope.
+      security:
+        - oauth2: ['bitrix:process:terminate']
+      parameters:
+        - name: email
+          in: query
+          required: false
+          schema:
+            type: string
+            format: email
+          description: Email address of the user to terminate. Either email or bitrix_id must be provided.
+        - name: bitrix_id
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Bitrix ID of the user to terminate. Either email or bitrix_id must be provided.
+      responses:
+        '200':
+          description: User termination process initiated in GenieMap.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /apps/bitrix/process/terminate/jumpcloud:
+    post:
+      tags:
+        - bitrix-process
+      summary: Terminate a user in Jumpcloud based on Bitrix ID or Email
+      description: Schedules the suspension of a user in Jumpcloud using either their Bitrix ID or email address. Requires 'bitrix:process:terminate' scope.
+      security:
+        - oauth2: ['bitrix:process:terminate']
+      parameters:
+        - name: email
+          in: query
+          required: false
+          schema:
+            type: string
+            format: email
+          description: Email address of the user to terminate. Either email or bitrix_id must be provided.
+        - name: bitrix_id
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Bitrix ID of the user to terminate. Either email or bitrix_id must be provided.
+      responses:
+        '200':
+          description: User termination process initiated in Jumpcloud.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  details:
+                    type: object # Assuming details is the response from jumpcloudService.createBulkUserStates
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /apps/bitrix/process/terminate/telegram:
+    post:
+      tags:
+        - bitrix-process
+      summary: Terminate a user in Telegram based on Bitrix ID or Email
+      description: Initiates the termination process for a user in Telegram using either their Bitrix ID or email address. Requires 'bitrix:process:terminate' scope.
+      security:
+        - oauth2: ['bitrix:process:terminate']
+      parameters:
+        - name: email
+          in: query
+          required: false
+          schema:
+            type: string
+            format: email
+          description: Email address of the user to terminate. Either email or bitrix_id must be provided.
+        - name: bitrix_id
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Bitrix ID of the user to terminate. Either email or bitrix_id must be provided.
+      responses:
+        '200':
+          description: User termination process initiated in Telegram.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /apps/portal/v1/bitly/project:
+    get: # New GET operation for listing all projects
+      tags:
+        - portal-bitly
+      summary: Retrieve all stored projects with their details and Bitly links
+      security:
+        - oauth2: ['v1:bitly:read'] # Changed to v1:bitly:read
+      responses:
+        '200':
+          description: A list of all projects successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FullProjectData' # Reference new schema
+                  message:
+                    type: string
+                    example: "Successfully retrieved all projects"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - portal-bitly
+      summary: Create a project link using query parameters.
+      security:
+        - oauth2: ['v1:bitly:create']
+      parameters: 
+        - name: developer
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Developer name
+        - name: project
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Original project name/identifier
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+          description: City name
+        - name: community
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Community name
+        - name: subCommunity
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Sub Community name
+        - name: campaignName
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Campaign name
+        - name: projectLink
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uri
+          description: Link to the project details
+        - name: projectName
+          in: query
+          required: false
+          schema:
+            type: string
+          description: New project name field (distinct from 'project')
+        - name: integrately
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Integrately reference or status
+        - name: propertyType
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Type of property
+        - name: leadType # New parameter for POST query
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Type of lead
+      responses:
+        '200': 
+          description: Project WhatsApp link created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      projectId: 
+                        type: string
+                        description: The unique ID of the project (found or created).
+                        example: P1234567
+                      originalUrl:
+                        type: string
+                        format: uri
+                      shortUrl:
+                        type: string
+                        format: uri
+                  message:
+                    type: string
+        '400': 
+          description: Bad Request - At least one parameter must be provided
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "At least one parameter must be provided."
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /apps/portal/v1/bitly/project.json:
+    post:
+      tags:
+        - portal-bitly
+      summary: Create a project link using JSON payload.
+      security:
+        - oauth2: ['v1:bitly:create']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllProjectData'
+      responses:
+        '201':
+          description: Project WhatsApp link created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      projectId:
+                        type: string
+                        description: The unique ID of the project (found or created).
+                        example: P1234567
+                      originalUrl:
+                        type: string
+                        format: uri
+                      shortUrl:
+                        type: string
+                        format: uri
+                  message:
+                    type: string
+        '400':
+          description: Bad Request - At least one parameter must be provided
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "At least one parameter must be provided."
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /apps/portal/v1/bitly/campaign:
+    post:
+      tags:
+        - portal-bitly
+      summary: Create a campaign link using query parameters
+      security:
+        - oauth2: ['v1:bitly:create']
+      parameters:
+        - name: projectName
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Project name
+        - name: developerName
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Developer name
+        - name: campaignName
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Campaign name
+        - name: integrately
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Integrately reference
+        - name: area
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Area name
+        - name: propertyType
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Property type
+        - name: projectLink
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+          description: Project link URL
+      responses:
+        '200':
+          description: Campaign link created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  exists:
+                    type: boolean
+                    description: Whether the campaign already existed
+                  link:
+                    type: string
+                    format: uri
+                    description: Shortened Bitly URL
+                  message:
+                    type: string
+                    description: WhatsApp message content
+                  longlink:
+                    type: string
+                    format: uri
+                    description: Original WhatsApp URL
+                  uniqueId:
+                    type: string
+                    description: Unique campaign identifier
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /apps/portal/v1/bitly/campaign.json:
+    post:
+      tags:
+        - portal-bitly
+      summary: Create a campaign link using JSON payload
+      security:
+        - oauth2: ['v1:bitly:create']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - projectName
+                - developerName
+                - campaignName
+                - integrately
+                - area
+                - propertyType
+                - projectLink
+              properties:
+                projectName:
+                  type: string
+                  description: Project name
+                developerName:
+                  type: string
+                  description: Developer name
+                campaignName:
+                  type: string
+                  description: Campaign name
+                integrately:
+                  type: string
+                  description: Integrately reference
+                area:
+                  type: string
+                  description: Area name
+                propertyType:
+                  type: string
+                  description: Property type
+                projectLink:
+                  type: string
+                  format: uri
+                  description: Project link URL
+      responses:
+        '200':
+          description: Campaign link created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  exists:
+                    type: boolean
+                    description: Whether the campaign already existed
+                  link:
+                    type: string
+                    format: uri
+                    description: Shortened Bitly URL
+                  message:
+                    type: string
+                    description: WhatsApp message content
+                  longlink:
+                    type: string
+                    format: uri
+                    description: Original WhatsApp URL
+                  uniqueId:
+                    type: string
+                    description: Unique campaign identifier
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /apps/portal/data/pf/locations/locationidfromname:
+    get:
+      tags:
+        - portal
+      summary: Get location ID by exact name match
+      security:
+        - oauth2: ['portal:data:pf:read']
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+          description: City name (exact match required)
+        - name: community
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Community name (exact match required)
+        - name: sub_community
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Sub-community name (exact match required)
+        - name: tower
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Tower name (exact match required)
+      responses:
+        '200':
+          description: Locations found with their IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: Location ID (trimmed from are.X.XXXXX to just XXXXX)
+                    level:
+                      type: string
+                      enum: ['City', 'Community', 'Sub Community', 'Tower', 'Tower Inside Tower']
+                      description: The level of the location in the hierarchy
+                    city:
+                      type: string
+                      description: City name
+                    community:
+                      type: string
+                      nullable: true
+                      description: Community name
+                    sub_community:
+                      type: string
+                      nullable: true
+                      description: Sub-community name
+                    tower:
+                      type: string
+                      nullable: true
+                      description: Tower name
+                    lat:
+                      type: number
+                      description: Latitude
+                    lng:
+                      type: number
+                      description: Longitude
+                example:
+                  - id: "13532"
+                    level: "Sub Community"
+                    city: "Dubai"
+                    community: "Mohammed Bin Rashid City"
+                    sub_community: "The Cube Residences"
+                    tower: null
+                    lat: 25.276987
+                    lng: 55.296249
+        '400':
+          description: Bad request - city is required, and at least one of community, sub_community, or tower must be provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  schemas:
+    TelegramLocation:
+      type: object
+      description: "A nested object representing a location. Each key is a location name, and the value is another TelegramLocation object."
+      additionalProperties:
+        $ref: '#/components/schemas/TelegramLocation'
+    OAuth2Response:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          enum: [Bearer]
+        expires_in:
+          type: integer
+          description: Token expiration in seconds
+        scope:
+          type: string
+    OAuth2Error:
+      type: object
+      properties:
+        error:
+          type: string
+          enum: [invalid_request, invalid_client, invalid_grant, invalid_scope, unauthorized_client]
+        error_description:
+          type: string
+        statusCode:
+          type: integer
+    PortalResponse:
+      type: object
+      properties:
+        data:
+          type: object
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        endpoint:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+    CreateClientRequest:
+      type: object
+      required:
+        - name
+        - allowedScopes
+      properties:
+        name:
+          type: string
+        redirectUris:
+          type: array
+          items:
+            type: string
+            format: uri
+          default: ['https://api.provident.ae/auth/callback']
+          description: List of allowed redirect URIs. Defaults to ['https://api.provident.ae/auth/callback'] if not provided.
+        allowedScopes:
+          type: array
+          items:
+            type: string
+        tokenLifetimeSeconds:
+          type: integer
+          enum: [0, 3600, 10800, 21600, 43200, 86400]
+          default: 3600
+          description: 'Token lifetime in seconds. 0 means non-expiring. Other values represent 1h, 3h, 6h, 12h, and 24h respectively.'
+        rateLimitCount:
+          type: integer
+          minimum: 0
+          default: 200
+          description: Maximum requests allowed per window. Set to 0 for unlimited. Defaults to 200.
+        rateLimitWindowSeconds:
+          type: integer
+          minimum: 1
+          default: 43200
+          description: Rate limit window size in seconds. Defaults to 43200 (12 hours).
+        ipRestriction:
+          type: boolean
+          default: true
+          description: Enable IP restriction for this client. Defaults to true.
+        allowedIps:
+          type: array
+          items:
+            type: string
+          default: ["<ip>", "<ip>"]
+          description: List of allowed IPs/CIDRs if restriction is enabled. Defaults to all IPs.
+          example: ["192.168.1.100", "10.0.0.0/24", "2001:db8::1"]
+    UpdateClientRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        redirectUris:
+          type: array
+          items:
+            type: string
+            format: uri
+          default: ['https://api.provident.ae/auth/callback']
+          description: List of allowed redirect URIs. Defaults to ['https://api.provident.ae/auth/callback'] if not provided during client creation.
+        allowedScopes:
+          type: array
+          items:
+            type: string
+        isActive:
+          type: boolean
+        tokenLifetimeSeconds:
+          type: integer
+          enum: [0, 3600, 10800, 21600, 43200, 86400]
+          default: 3600
+          description: 'Token lifetime in seconds. 0 means non-expiring. Other values represent 1h, 3h, 6h, 12h, and 24h respectively.'
+        rateLimitCount:
+          type: integer
+          minimum: 0
+          default: 200
+          description: Maximum requests allowed per window. Set to 0 for unlimited. Defaults to 200.
+        rateLimitWindowSeconds:
+          type: integer
+          minimum: 1
+          default: 43200
+          description: Rate limit window size in seconds. Defaults to 43200 (12 hours).
+        ipRestriction:
+          type: boolean
+          description: Enable IP restriction for this client.
+        allowedIps:
+          type: array
+          items:
+            type: string
+          description: List of allowed IPs/CIDRs if restriction is enabled.
+    ClientResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+        name:
+          type: string
+        redirectUris:
+          type: array
+          items:
+            type: string
+        allowedScopes:
+          type: array
+          items:
+            type: string
+        isActive:
+          type: boolean
+        tokenLifetimeSeconds:
+          type: integer
+          description: Token lifetime in seconds
+        rateLimitCount:
+          type: integer
+          description: Maximum requests allowed per window. 0 means unlimited.
+        rateLimitWindowSeconds:
+          type: integer
+        ip_restriction:
+          type: boolean
+          description: Whether IP restriction is enabled
+        allowedIps:
+          type: array
+          items:
+            type: string
+          description: List of allowed IPs/CIDRs
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        creatorPrincipalId:
+          type: string
+          nullable: true
+          description: ID (User UUID or Client ID) of the principal who created this client
+    TokenIntrospectionRequest:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          description: The token to introspect
+    TokenIntrospectionResponse:
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: Boolean indicating whether the token is active
+        client_id:
+          type: string
+          description: Client ID associated with the token
+        username:
+          type: string
+          description: Username of the associated user, if any
+        scope:
+          type: string
+          description: Space-separated list of scopes
+        exp:
+          type: integer
+          description: Token expiration timestamp in seconds since epoch
+        iat:
+          type: integer
+          description: Token issuance timestamp in seconds since epoch
+    TokenRevocationRequest:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          description: The token to revoke
+    Employee:
+      type: object
+      required:
+        - No
+        - No_2
+        - IS_Agent
+        - First_Name
+        - Last_Name
+        - Email
+        - Company_Email
+        - Employee_Unique_ID
+      properties:
+        No:
+          type: string
+        No_2:
+          type: string
+        IS_Agent:
+          type: boolean
+        First_Name:
+          type: string
+        Last_Name:
+          type: string
+        Initials:
+          type: string
+        Job_Title:
+          type: string
+        Search_Name:
+          type: string
+        Phone_No:
+          type: string
+        Mobile_Phone_No:
+          type: string
+        Email:
+          type: string
+          format: email
+        Birth_Date:
+          type: string
+          format: date
+        Gender:
+          type: string
+        Employee_Date:
+          type: string
+          format: date
+        Status:
+          type: string
+        Company_Email:
+          type: string
+          format: email
+        Employee_Unique_ID:
+          type: string
+        Bank:
+          type: string
+        Bank_Branch_No:
+          type: string
+        Bank_Account_No:
+          type: string
+        IBAN:
+          type: string
+        SWIFT_COde:
+          type: string
+        Account_Name:
+          type: string
+        Employee_Type:
+          type: string
+        Attendance_Required:
+          type: boolean
+        Department:
+          type: string
+        Base_Calender:
+          type: string
+        Shift_Calender:
+          type: string
+        Line_Manager:
+          type: string
+        Nationality_1:
+          type: string
+        Marial_Status:
+          type: string
+        Visa_Entity:
+          type: string
+        Is_Bitrix:
+          type: boolean
+
+    EmployeeUpdate:
+      type: object
+      properties:
+        No_2:
+          type: string
+        IS_Agent:
+          type: boolean
+        First_Name:
+          type: string
+        Last_Name:
+          type: string
+        Initials:
+          type: string
+        Job_Title:
+          type: string
+        Search_Name:
+          type: string
+        Phone_No:
+          type: string
+        Mobile_Phone_No:
+          type: string
+        Email:
+          type: string
+          format: email
+        Birth_Date:
+          type: string
+          format: date
+        Gender:
+          type: string
+        Employee_Date:
+          type: string
+          format: date
+        Status:
+          type: string
+        Company_Email:
+          type: string
+          format: email
+        Employee_Unique_ID:
+          type: string
+        Bank:
+          type: string
+        Bank_Branch_No:
+          type: string
+        Bank_Account_No:
+          type: string
+        IBAN:
+          type: string
+        SWIFT_COde:
+          type: string
+        Account_Name:
+          type: string
+        Employee_Type:
+          type: string
+        Attendance_Required:
+          type: boolean
+        Department:
+          type: string
+        Base_Calender:
+          type: string
+        Shift_Calender:
+          type: string
+        Line_Manager:
+          type: string
+        Nationality_1:
+          type: string
+        Marial_Status:
+          type: string
+        Visa_Entity:
+          type: string
+        Is_Bitrix:
+          type: boolean
+
+    SystemUser:
+      type: object
+      properties:
+        _id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        activated:
+          type: boolean
+        account_locked:
+          type: boolean
+
+    UserGroup:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+
+    GraphObjectWithPaths:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+        attributes:
+          type: object
+          additionalProperties: true
+        paths:
+          type: array
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  additionalProperties: true
+                to:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    id:
+                      type: string
+
+    Emirate:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+          description: Emirate ID
+          minimum: 0
+        name:
+          type: string
+          maxLength: 255
+          example: Dubai
+          description: Name of Emirate
+        code:
+          type: string
+          maxLength: 255
+          description: Unique emirate code
+
+    District:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+          description: District ID
+          minimum: 0
+        name:
+          type: string
+          maxLength: 255
+          example: JVC
+          description: Name of district
+        emirateId:
+          type: integer
+          format: int64
+          minimum: 0
+          description: ID of the emirate this district belongs to
+        costLevel:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 3
+          description: |
+            Describes the relative expense level of a district, providing an indication of the area's overall 
+            affordability. The values range from 1 to 5, where 1 signifies the most affordable districts and 5 
+            represents the most expensive ones. This metric helps potential buyers or investors understand 
+            the cost dynamics of different areas within the UAE, aiding in their decision-making process.
+        description:
+          type: string
+          example: District description
+          description: Optional. District description
+
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+          description: Project ID
+          minimum: 0
+        name:
+          type: string
+          maxLength: 255
+          example: REFINE "Equiti Gate"
+          description: Name of the project
+        districtId:
+          type: integer
+          format: int64
+          minimum: 0
+          description: ID of the district where the project is located
+        developerId:
+          type: integer
+          format: int64
+          minimum: 0
+          description: ID of the developer
+        sellerId:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Optional. ID of the agency selling the project
+        serviceCharge:
+          type: number
+          example: 100
+          maximum: 65535
+          minimum: 0
+          description: |
+            Optional. 
+            Service charge - the recurring fee paid by property owners within a real estate project in the 
+            UAE to cover the cost of shared facilities and services provided by the property management, 
+            expressed in AED per year.
+        handoverDate:
+          type: string
+          format: date
+          example: '2026-06-01'
+          description: |
+            Optional. 
+            Approximate date of handover. In most cases, the date is approximate and typically represents 
+            a quarter.
+        status:
+          type: string
+          enum: [available, sold_out, launch]
+          example: available
+          description: |
+            Project status. "available" - units are available. "sold_out" - all units are out of stock. 
+            "launch" - new launch.
+        eoi:
+          type: number
+          example: 50000
+          description: |
+            Optional.
+            The eoi field represents the Expression of Interest submitted by potential buyers or investors 
+            for a property. It indicates the initial interest and proposed terms of purchase.
+        startOfSales:
+          type: string
+          format: date
+          example: '2024-05-01'
+          description: Optional. The start date for the project's sales
+        description:
+          type: string
+          maxLength: 2000
+          example: Zuha Island is a secluded resort complex
+          description: Optional. Description of the project
+        amenities:
+          type: array
+          items:
+            type: integer
+          description: Optional. List of amenity IDs available in the project
+
+    Developer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+          description: Developer ID
+          minimum: 0
+        name:
+          type: string
+          maxLength: 255
+          example: Emaar Properties
+          description: Name of Developer
+        description:
+          type: string
+          example: Developer description
+          description: Optional. The field contains a description of the developer
+        logo:
+          type: string
+          format: uri
+          example: 'https://cdn.geniemap.net/2024/03/21/logo.png'
+          description: Optional. Contains the URL link to the developer's logo
+
+    Amenity:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+          description: Amenity ID
+          minimum: 0
+        name:
+          type: string
+          maxLength: 255
+          example: BBQ
+          description: Name of the amenity
+        code:
+          type: string
+          maxLength: 255
+          example: bbq
+          description: Unique amenity code
+        icon:
+          type: string
+          format: uri
+          description: Optional. URL to the amenity's icon
+
+    UnitType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+          description: Unit type ID
+          minimum: 0
+        name:
+          type: string
+          maxLength: 255
+          example: Villa
+          description: Name of unit type
+        code:
+          type: string
+          maxLength: 255
+          description: Unique unit type code
+
+    Finish:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          minimum: 1
+          example: 1
+          description: Finishing ID
+        name:
+          type: string
+          maxLength: 255
+          example: Luxe
+          description: Finishing name
+        description:
+          type: string
+          description: Optional. Description of the finishing type
+
+    UnitLayout:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+          description: Unit layout ID
+          minimum: 0
+        name:
+          type: string
+          maxLength: 255
+          example: 3 BR
+          description: Name of unit layout (e.g., 1 BR, 2 BR, Studio)
+        bedrooms:
+          type: integer
+          minimum: 0
+          description: Number of bedrooms in the layout
+        bathrooms:
+          type: integer
+          minimum: 0
+          description: Number of bathrooms in the layout
+        area:
+          type: number
+          minimum: 0
+          description: Total area of the unit in square feet
+        image:
+          type: string
+          format: uri
+          description: Optional. URL to the layout floor plan image
+
+    Unit:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+          description: Unit ID
+          minimum: 0
+        projectId:
+          type: integer
+          format: int64
+          minimum: 0
+          description: ID of the project this unit belongs to
+        unitTypeId:
+          type: integer
+          format: int64
+          minimum: 0
+          description: ID of the unit type (e.g., Apartment, Villa)
+        layoutId:
+          type: integer
+          format: int64
+          minimum: 0
+          description: ID of the unit layout (e.g., 1 BR, 2 BR)
+        price:
+          type: number
+          minimum: 0
+          description: Price of the unit in AED
+        area:
+          type: number
+          minimum: 0
+          description: Area of the unit in square feet
+        pricePerSqFt:
+          type: number
+          minimum: 0
+          description: Price per square foot in AED
+        typeOfSale:
+          type: string
+          enum: [offPlan, resale]
+          description: Whether the unit is off-plan or resale
+        status:
+          type: string
+          enum: [available, reserved, sold]
+          description: Current status of the unit
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        avatarId:
+          type: string
+
+    CreateUser:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        avatarId:
+          type: string
+
+    UpdateUser:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        avatarId:
+          type: string
+
+    Image:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+          format: uri
+        contentType:
+          type: string
+        size:
+          type: integer
+
+    JumpcloudScheduledUserstateResult:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the scheduled state change request.
+        userId:
+          type: string
+          description: The ID of the System User this entry is specific to.
+        state:
+          type: string
+          description: The state to set for the user.
+        startDate:
+          type: string
+          format: date-time
+          description: The timestamp for when the state change will occur.
+        activationEmailOverride:
+          type: string
+          nullable: true
+          description: An email address that overrides the system user's primary email address for activation email delivery.
+        sendActivationEmails:
+          type: boolean
+          nullable: true
+          description: Determines if activation emails are sent.
+
+    JumpcloudBulkScheduledStatechangeCreate:
+      type: object
+      required:
+        - user_ids
+        - state
+        - start_date
+      properties:
+        user_ids:
+          type: array
+          items:
+            type: string
+          description: An array of system user IDs.
+        state:
+          type: string
+          enum: [ACTIVATED, SUSPENDED]
+          description: The state to set for the users.
+        start_date:
+          type: string
+          format: date-time
+          description: The timestamp for when the state change will occur.
+        activation_email_override:
+          type: string
+          nullable: true
+          description: An email address that overrides the system user's primary email address for activation email delivery.
+        send_activation_emails:
+          type: boolean
+          nullable: true
+          description: Determines if activation emails are sent.
+
+    AllProjectData:
+      type: object
+      properties:
+        developer:
+          type: string
+          description: Developer name
+          example: "Emaar"
+        project:
+          type: string
+          description: Original project name/identifier
+          example: "Downtown Views"
+        city:
+          type: string
+          description: City name
+          example: "Dubai"
+        community:
+          type: string
+          description: Community name
+          example: "Downtown Dubai"
+        subCommunity:
+          type: string
+          description: Sub-Community name
+          example: "Burj Khalifa District"
+        campaignName:
+          type: string
+          description: Campaign name for the project
+          example: "Summer Promotion 2024"
+        projectLink:
+          type: string
+          format: uri
+          description: Link to the project details page
+          example: "https://providentestate.com/dubai/downtown-dubai/downtown-views"
+        projectName:
+          type: string
+          description: Specific project name (distinct from 'project' field)
+          example: "Equiti Gate Tower 1"
+        integrately:
+          type: string
+          description: Integrately reference or status information
+          example: "CampaignRef123"
+        propertyType:
+          type: string
+          description: Type of property
+          example: "Apartment"
+        leadType: # New property in schema
+          type: string
+          nullable: true
+          description: Type of lead
+          example: "Buyer"
+      description: "Data for creating a project link. All fields are optional, but at least one field must be provided."
+    
+    FullProjectData: # New schema for the GET all projects response item
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique project ID (e.g., P1234567)
+          example: P1234567
+        developer:
+          type: string
+          nullable: true
+          description: Developer name
+        project:
+          type: string
+          nullable: true
+          description: Original project name/identifier
+        city:
+          type: string
+          nullable: true
+          description: City name
+        community:
+          type: string
+          nullable: true
+          description: Community name
+        subCommunity: # DB name is sub_community
+          type: string
+          nullable: true
+          description: Sub-Community name
+        campaignName:
+          type: string
+          nullable: true
+          description: Campaign name for the project
+        projectLink:
+          type: string
+          format: uri
+          nullable: true
+          description: Link to the project details page
+        projectName:
+          type: string
+          nullable: true
+          description: Specific project name
+        integrately:
+          type: string
+          nullable: true
+          description: Integrately reference
+        propertyType:
+          type: string
+          nullable: true
+          description: Type of property
+        lead_type: # Matches DB column name, new property for response schema
+          type: string
+          nullable: true
+          description: Type of lead.
+        original_url: # Matches DB column name
+          type: string
+          format: uri
+          nullable: true
+          description: The full original WhatsApp URL that was shortened.
+        short_url: # Matches DB column name
+          type: string
+          format: uri
+          nullable: true
+          description: The shortened Bitly URL.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp of when the project entry was created.
+      description: "Represents a single project entry retrieved from the database."
+
+    PortalUserDataResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "User data retrieved successfully"
+        data:
+          $ref: '#/components/schemas/UserDataPayload'
+        timestamp:
+          type: string
+          format: date-time
+    
+    UserDataPayload:
+      type: object
+      properties:
+        user_details:
+          $ref: '#/components/schemas/UserDetails'
+        found_units_summary:
+          $ref: '#/components/schemas/UnitsSummarization'
+        missing_units_summary:
+          $ref: '#/components/schemas/UnitsSummarization'
+
+    UserDetails:
+      type: object
+      description: Detailed information about the user from 'users' or 'users_deleted' table.
+      # Add properties based on the actual fields returned from your users and users_deleted tables.
+      # Example fields are provided below. Adjust as necessary.
+      properties:
+        user_id: 
+          type: integer
+          format: int64
+          example: 12345
+        role: 
+          type: string
+          nullable: true
+          example: "agent"
+        name: 
+          type: string
+          nullable: true
+          example: "John Doe"
+        username: 
+          type: string
+          nullable: true
+          example: "johndoe"
+        phone_number: 
+          type: string
+          nullable: true
+          example: "+1234567890"
+        manager: 
+          type: string
+          nullable: true
+          example: "Jane Smith"
+        allowed_areas: 
+          type: string # Or array if it's structured
+          nullable: true
+          example: "Downtown, Marina"
+        geolimit: 
+          type: string
+          nullable: true
+        requests: 
+          type: integer
+          nullable: true
+        limit_req: 
+          type: integer
+          nullable: true
+        abs_requests: 
+          type: integer
+          format: int64
+          nullable: true
+        floorplan_requests: 
+          type: integer
+          format: int64
+          nullable: true
+        floorplan_limit: 
+          type: integer
+          format: int64
+          nullable: true
+        floorplan_abs: 
+          type: integer
+          format: int64
+          nullable: true
+        owner_requests: 
+          type: integer
+          format: int64
+          nullable: true
+        owner_limit: 
+          type: integer
+          format: int64
+          nullable: true
+        owner_abs: 
+          type: integer
+          format: int64
+          nullable: true
+        bitrix_id: 
+          type: integer 
+          format: int64
+          example: 67890
+          nullable: true 
+        email: 
+          type: string
+          format: email
+          nullable: true
+          example: "john.doe@example.com"
+        source_table:
+          type: string
+          enum: [users, users_deleted]
+          description: The table from which the user details were sourced.
+          example: "users"
+      # additionalProperties: true # Consider if you have many other varying fields.
+
+    UnitsSummarization:
+      type: object
+      description: Summary of unit search activities.
+      properties:
+        by_date:
+          type: object
+          description: >
+            Summary of unit searches, grouped by date. 
+            Each key is a date string (YYYY-MM-DD). 
+            This field is omitted if the 'summary=t' parameter is used.
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/LocationSummaryItem'
+          nullable: true 
+        period_summary:
+          $ref: '#/components/schemas/PeriodSummaryItem'
+
+    PeriodSummaryItem:
+      type: object
+      description: Overall summary for a specified period.
+      properties:
+        period:
+          type: string
+          description: The date range for which the summary is provided (e.g., "YYYY-MM-DD to YYYY-MM-DD", "From YYYY-MM-DD", "All Time").
+          example: "2024-01-01 to 2024-01-31"
+        absolute_total_searches:
+          type: integer
+          description: Total number of searches within this period.
+          example: 150
+        by_location:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationSummaryItem'
+
+    LocationSummaryItem:
+      type: object
+      description: Summary of searches for a specific location.
+      properties:
+        emirate:
+          type: string
+          nullable: true
+          example: "Dubai"
+        area:
+          type: string
+          nullable: true
+          example: "Downtown Dubai"
+        sub_area:
+          type: string
+          nullable: true
+          example: "Burj Khalifa District"
+        sub_sub_area:
+          type: string
+          nullable: true
+          example: "Tower A" 
+        total_searches:
+          type: integer
+          example: 25
+
+    ErrorResponse: # A generic error response schema
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: "User with Bitrix ID 123 not found."
+        error:
+          type: string
+          nullable: true
+          example: "Not Found"
+
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OAuth2Error'
+    ForbiddenError:
+      description: Insufficient scope
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OAuth2Error'
+    BadRequestError:
+      description: Bad Request - Invalid input or parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OAuth2Error'
+    NotFoundError:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OAuth2Error'
+    ConflictError:
+      description: Conflict - Resource already exists or state conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OAuth2Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OAuth2Error'
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: OAuth2 Client Credentials Flow - client credentials are sent in the request body, not as Basic Auth header
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.provident.ae/v2/oauth2/token
+          scopes:
+            'portal:profile:read': Read access to Portal profile
+            'portal:dashboard:read': Read access to Portal dashboard
+            'portal:data:pf:read': Read access to PF Locations data
+            'admin:clients:create': Create OAuth clients
+            'admin:clients:read': Read OAuth clients
+            'admin:clients:update': Update OAuth clients
+            'admin:clients:delete': Delete OAuth clients
+            'oauth2:introspect': Introspect OAuth tokens
+            'oauth2:revoke': Revoke OAuth tokens
+            'dynamics:employee:read': Read access to Dynamics employee data
+            'dynamics:employee:create': Create Dynamics employees
+            'dynamics:employee:update': Update Dynamics employees
+            'dynamics:employee:delete': Delete Dynamics employees
+            'jumpcloud:users:read': Read access to JumpCloud users
+            'jumpcloud:groups:read': Read access to JumpCloud groups
+            'crm:property:read': Read access to CRM property data
+            'crm:user:read': Read access to CRM user data
+            'crm:lead:write': Write access to create CRM leads
+            'crm:lead:read': Read access to CRM lead data
+            'crm:item:write': Write access to create CRM items
+            'crm:item:read': Read access to CRM items
+            'geniemap:emirates:read': Read emirates data
+            'geniemap:districts:read': Read districts data
+            'geniemap:projects:read': Read projects data
+            'geniemap:developers:read': Read developers data
+            'geniemap:amenities:read': Read amenities data
+            'geniemap:unit-types:read': Read unit types data
+            'geniemap:finishes:read': Read finishes data
+            'geniemap:unit-layouts:read': Read unit layouts data
+            'geniemap:units:read': Read units data
+            'geniemap:users:read': Read users data
+            'geniemap:users:create': Create users
+            'geniemap:users:update': Update users
+            'geniemap:users:delete': Delete users
+            'geniemap:images:create': Upload images
+            'jumpcloud:users:write': Write access to JumpCloud users
+            'bitrix:process:terminate': Initiate user termination process via Bitrix endpoints
+            'v1:bitly:create': Create shortened URLs and campaign links using Bitly
+            'v1:bitly:read': Read access to Bitly link and project data
+            'portal:data:user:read': Read access to Portal user data from Telegram DB
+      x-client-authentication: "body"
+      x-tokenClientAuthentication: "body"
+      x-token-client-authentication: "body"
+      x-postman-client-auth: "body" 
