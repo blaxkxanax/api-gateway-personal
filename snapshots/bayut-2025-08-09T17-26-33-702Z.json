@@ -1,0 +1,1488 @@
+{
+  "url": "https://www.bayut.com/property/details-11065329.html",
+  "meta": {
+    "listingData": {
+      "active": true,
+      "agency": {
+        "active": true,
+        "createdAt": "2021-09-26T05:51:12+00:00",
+        "externalID": "10845",
+        "id": 29615903,
+        "licenses": [
+          {
+            "number": "947900",
+            "authority": "DED"
+          },
+          {
+            "number": "26387",
+            "authority": "RERA"
+          }
+        ],
+        "logo": {
+          "id": 148928158,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/148928158/818703171679434b8e68593a7e03860a"
+        },
+        "name": "Black Brick Property",
+        "objectID": 29615903,
+        "performanceCohort": "overachieving",
+        "product": "premium",
+        "productScore": 2,
+        "roles": [],
+        "slug": "black-brick-property-10845",
+        "tier": 2,
+        "tr": 2,
+        "type": "agency"
+      },
+      "agentAdStoriesCount": 0,
+      "amenities": [
+        {
+          "amenities": [
+            {
+              "externalID": 3,
+              "format": "checkbox",
+              "rank": 1,
+              "slug": "balcony-or-terrace",
+              "text": "Balcony or Terrace",
+              "value": "",
+              "icon": "balcony-or-terrace"
+            },
+            {
+              "externalID": 5,
+              "format": "checkbox",
+              "rank": 2,
+              "slug": "lobby-in-building",
+              "text": "Lobby in Building",
+              "value": "",
+              "icon": "lobby-in-building"
+            }
+          ],
+          "externalGroupID": 5,
+          "groupRank": 2,
+          "text": "Building"
+        },
+        {
+          "amenities": [
+            {
+              "externalID": 33,
+              "format": "checkbox",
+              "rank": 9,
+              "slug": "jacuzzi",
+              "text": "Jacuzzi",
+              "value": "",
+              "icon": "jacuzzi"
+            }
+          ],
+          "externalGroupID": 3,
+          "groupRank": 3,
+          "text": "Health and Fitness"
+        },
+        {
+          "amenities": [
+            {
+              "externalID": 4,
+              "format": "checkbox",
+              "rank": 7,
+              "slug": "barbeque-area",
+              "text": "Barbeque Area",
+              "value": "",
+              "icon": "barbeque-area"
+            }
+          ],
+          "externalGroupID": 2,
+          "groupRank": 4,
+          "text": "Recreation and Family"
+        },
+        {
+          "amenities": [
+            {
+              "externalID": 21,
+              "format": "select",
+              "rank": 3,
+              "slug": "pets-allowed",
+              "text": "Pets Allowed",
+              "value": "",
+              "icon": "pets-allowed"
+            }
+          ],
+          "externalGroupID": 7,
+          "groupRank": 9,
+          "text": "Miscellaneous"
+        }
+      ],
+      "approvedAt": 1741353095,
+      "area": 654.2232076800001,
+      "availabilityStatus": "available",
+      "baths": 5,
+      "category": [
+        {
+          "externalID": "1",
+          "id": 1,
+          "level": 0,
+          "name": "Residential",
+          "nameSingular": "Residential",
+          "slug": "residential"
+        },
+        {
+          "externalID": "3",
+          "id": 5,
+          "level": 1,
+          "name": "Villas",
+          "nameSingular": "Villa",
+          "slug": "villas"
+        }
+      ],
+      "cityLevelScore": 1,
+      "completionStatus": "completed",
+      "contactMethodAvailability": {
+        "whatsapp": true,
+        "sms": true,
+        "email": true,
+        "call": true
+      },
+      "contactName": "Katie Anna Savage",
+      "coverPhoto": {
+        "id": 766606922,
+        "externalID": "209772761",
+        "title": "Stunning Upgrades I Large Corner Plot",
+        "orderIndex": 1,
+        "nimaScore": 8.97242520756177,
+        "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766606922/c61f8e2369b7438f9a65532584cdfa77",
+        "main": true
+      },
+      "createdAt": 1741353095,
+      "description": "Brand new furnished 5-Bedroom Villa in Victory Heights located on a large corner plot – Modern Luxury Redefined<br /><br />BlackBrick exclusively presents this exceptional 5-bedroom, 4-bathroom villa in the prestigious Victory Heights community. With a built-up area of 4,802 sq. ft. on a 7,100 sq. ft. plot, this residence seamlessly blends timeless elegance with contemporary design. <br /><br />Key Features:<br />Spacious Living: Five luxurious bedrooms, including three with en-suite bathrooms. <br /><br />Modern Upgrades: Newly renovated bathrooms featuring stylish RAK tiles and sleek black fittings. <br /><br />Gourmet Kitchen: Redesigned to maximize storage space, elegant island, complemented by a separate laundry area and walk-in pantry. <br /><br />Smart Home Features: Equipped with a new AC system controlled by Nest thermostats, smart lighting, and Ring doorbell. <br /><br />Elegant Interiors: Herringbone LVT flooring, carpeted bedrooms, and high ceilings throughout. <br /><br />Outdoor Oasis: A tranquil garden with a tiled pool, large pergola with fan, barbecue area, wine fridge, and lush greenery. <br /><br />Additional Amenities: New front door, new water heaters, freshly painted interior and exterior, secure compound with electric garage doors. <br /><br />Community Highlights:<br />Victory Heights offers lush golf course views and a luxurious lifestyle. Residents enjoy proximity to world-class golf courses, leisure facilities, and the largest park in the community. <br /><br />This brand-new villa is ready for immediate occupancy. <br /><br />Don't miss the opportunity to own this exquisite villa that epitomizes luxury living in Victory Heights.",
+      "externalID": "11065329",
+      "extraFields": {
+        "hasRentTransactions": true,
+        "hasSaleTransactions": true,
+        "dldPropertySK": "11065329"
+      },
+      "floorPlans": [],
+      "furnishingStatus": "unfurnished",
+      "geography": {
+        "lat": 25.027079039647,
+        "lng": 55.213009037399
+      },
+      "hasExactGeography": true,
+      "hasMatchingFloorPlans": false,
+      "hidePrice": false,
+      "id": 7899460,
+      "indyScore": 65,
+      "isVerified": true,
+      "location": [
+        {
+          "externalID": "5001",
+          "id": 1,
+          "level": 0,
+          "name": "UAE",
+          "slug": "/uae"
+        },
+        {
+          "externalID": "5002",
+          "id": 2,
+          "level": 1,
+          "name": "Dubai",
+          "slug": "/dubai"
+        },
+        {
+          "externalID": "5274",
+          "id": 67,
+          "level": 2,
+          "name": "Dubai Sports City",
+          "slug": "/dubai/dubai-sports-city",
+          "type": "neighbourhood"
+        },
+        {
+          "externalID": "5962",
+          "id": 523,
+          "level": 3,
+          "name": "Victory Heights",
+          "slug": "/dubai/dubai-sports-city/victory-heights",
+          "type": "neighbourhood"
+        },
+        {
+          "externalID": "7929",
+          "id": 1637,
+          "level": 4,
+          "name": "Esmeralda",
+          "slug": "/dubai/dubai-sports-city/victory-heights/esmeralda",
+          "type": "neighbourhood"
+        }
+      ],
+      "locationPurposeTier": 3,
+      "objectID": 7899460,
+      "ownerID": 1163246,
+      "panoramaCount": 0,
+      "panoramas": [],
+      "permitNumber": "6512617700",
+      "phoneNumber": {
+        "mobileNumbers": [
+          "+971507151741"
+        ],
+        "phoneNumbers": [
+          "+97145911275"
+        ],
+        "proxyMobile": null,
+        "proxyPhone": "+97142455227",
+        "whatsapp": "971545695868"
+      },
+      "photoCount": 60,
+      "photos": [
+        {
+          "id": 766606922,
+          "externalID": "209772761",
+          "title": "1 ",
+          "orderIndex": 1,
+          "nimaScore": 8.97242520756177,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766606922/c61f8e2369b7438f9a65532584cdfa77"
+        },
+        {
+          "id": 766608825,
+          "externalID": "209774591",
+          "title": "2 ",
+          "orderIndex": 0,
+          "nimaScore": 6.304126816152063,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608825/5f0d280c6cd141bf9b24d23e4727b369"
+        },
+        {
+          "id": 766608810,
+          "externalID": "209772945",
+          "title": "3 ",
+          "orderIndex": 2,
+          "nimaScore": 9.526376942142406,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608810/a7588ebe05264fb78250f791052a62f3"
+        },
+        {
+          "id": 766608812,
+          "externalID": "209772963",
+          "title": "4 ",
+          "orderIndex": 3,
+          "nimaScore": 9.428486146481191,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608812/96229c3035144945ad75245aee69e7b0"
+        },
+        {
+          "id": 766608828,
+          "externalID": "209774639",
+          "title": "5 ",
+          "orderIndex": 4,
+          "nimaScore": 6.890314670255648,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608828/54946caf8d6e40388d11fd1636a28ec6"
+        },
+        {
+          "id": 766608802,
+          "externalID": "209772793",
+          "title": "6 ",
+          "orderIndex": 5,
+          "nimaScore": 8.900465256454595,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608802/07ef327778a94c909917d46bcf34a8ea"
+        },
+        {
+          "id": 766608814,
+          "externalID": "209772972",
+          "title": "7 ",
+          "orderIndex": 6,
+          "nimaScore": 8.551555577342924,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608814/707e0675ce07497d82557e1113b4aa26"
+        },
+        {
+          "id": 766608849,
+          "externalID": "209774838",
+          "title": "8 ",
+          "orderIndex": 7,
+          "nimaScore": 6.152068865849287,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608849/8f6318b38ca04b23b8d54314dcc3bd6a"
+        },
+        {
+          "id": 766608826,
+          "externalID": "209774603",
+          "title": "9 ",
+          "orderIndex": 8,
+          "nimaScore": 6.576082219174889,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608826/825a95a34aed491cb2afca737c3a4063"
+        },
+        {
+          "id": 766608821,
+          "externalID": "209773020",
+          "title": "10 ",
+          "orderIndex": 9,
+          "nimaScore": 9.289828232498024,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608821/55f7647cacf3408ea0aa3bec0496686c"
+        },
+        {
+          "id": 766608820,
+          "externalID": "209773018",
+          "title": "11 ",
+          "orderIndex": 10,
+          "nimaScore": 9.151719078326323,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608820/aa30e0801b5e47dc8f51bb92cb83abd5"
+        },
+        {
+          "id": 766608833,
+          "externalID": "209774690",
+          "title": "12 ",
+          "orderIndex": 11,
+          "nimaScore": 8.350017646362176,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608833/84b0f54f19aa49678acd9c3af5bad5e8"
+        },
+        {
+          "id": 766608847,
+          "externalID": "209774835",
+          "title": "13 ",
+          "orderIndex": 12,
+          "nimaScore": 6.148696452125932,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608847/11de47a9dc984eff957501d750c276b0"
+        },
+        {
+          "id": 766608823,
+          "externalID": "209773034",
+          "title": "14 ",
+          "orderIndex": 13,
+          "nimaScore": 6.000381868763375,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608823/4aec9dc98f044cc7ac1636649c78e81e"
+        },
+        {
+          "id": 766608804,
+          "externalID": "209772817",
+          "title": "15 ",
+          "orderIndex": 14,
+          "nimaScore": 8.546942899574576,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608804/74b439d537d3463aa6ecf88fea4d6e99"
+        },
+        {
+          "id": 766608801,
+          "externalID": "209772779",
+          "title": "16 ",
+          "orderIndex": 15,
+          "nimaScore": 9.857985353597968,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608801/e5c9bb735945436d82dbcbd2d5c59676"
+        },
+        {
+          "id": 766608856,
+          "externalID": "209774874",
+          "title": "17 ",
+          "orderIndex": 16,
+          "nimaScore": 7.781400772031226,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608856/f1e9be29390644b49addce4b4e37114b"
+        },
+        {
+          "id": 766608803,
+          "externalID": "209772806",
+          "title": "18 ",
+          "orderIndex": 17,
+          "nimaScore": 9.84354001741599,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608803/57d79bc4aadb4403848f3808f8bbc324"
+        },
+        {
+          "id": 766608853,
+          "externalID": "209774871",
+          "title": "19 ",
+          "orderIndex": 18,
+          "nimaScore": 6.025484679024421,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608853/b329a592d49c4a38b9cc48d7e65c4a28"
+        },
+        {
+          "id": 766608829,
+          "externalID": "209774658",
+          "title": "20 ",
+          "orderIndex": 19,
+          "nimaScore": 7.965783162126172,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608829/8bfbcba5a1c34a199216b16a14ffe59b"
+        },
+        {
+          "id": 766608822,
+          "externalID": "209773033",
+          "title": "21 ",
+          "orderIndex": 20,
+          "nimaScore": 8.770227479657706,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608822/c4bbd82cce2340f6a26ff25bc81b1240"
+        },
+        {
+          "id": 766608827,
+          "externalID": "209774614",
+          "title": "22 ",
+          "orderIndex": 21,
+          "nimaScore": 9.057514057630414,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608827/688e20aef8b84827ab021bb182e9ea2d"
+        },
+        {
+          "id": 766608800,
+          "externalID": "209772765",
+          "title": "23 ",
+          "orderIndex": 22,
+          "nimaScore": 9.535677919321415,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608800/c7b5854b61cb4870a06d2c3b01a56038"
+        },
+        {
+          "id": 766608805,
+          "externalID": "209772837",
+          "title": "24 ",
+          "orderIndex": 23,
+          "nimaScore": 9.705966632512947,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608805/0e9a5c2879804f0687b087c810282e74"
+        },
+        {
+          "id": 766608806,
+          "externalID": "209772873",
+          "title": "25 ",
+          "orderIndex": 24,
+          "nimaScore": 7.6440970440362435,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608806/2fabdd7aece141e4ba09bac7941aeca9"
+        },
+        {
+          "id": 766608807,
+          "externalID": "209772890",
+          "title": "26 ",
+          "orderIndex": 25,
+          "nimaScore": 8.96802412081206,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608807/da0fcecb79b246c0bcaff676cdcaee75"
+        },
+        {
+          "id": 766608808,
+          "externalID": "209772911",
+          "title": "27 ",
+          "orderIndex": 26,
+          "nimaScore": 8.087277964722034,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608808/6dd72257976246dc86344b9b8ae13a40"
+        },
+        {
+          "id": 766608809,
+          "externalID": "209772926",
+          "title": "28 ",
+          "orderIndex": 27,
+          "nimaScore": 7.851213873947188,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608809/173dbb692a06432db5e93b0d26af6e85"
+        },
+        {
+          "id": 766608811,
+          "externalID": "209772955",
+          "title": "29 ",
+          "orderIndex": 28,
+          "nimaScore": 9.897250399416706,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608811/49b34d4c42274916b0ee7f8940d4b543"
+        },
+        {
+          "id": 766608813,
+          "externalID": "209772967",
+          "title": "30 ",
+          "orderIndex": 29,
+          "nimaScore": 8.478588394900726,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608813/4e13e398c5774d89bd73b38e0a748ca0"
+        },
+        {
+          "id": 766608815,
+          "externalID": "209772988",
+          "title": "31 ",
+          "orderIndex": 30,
+          "nimaScore": 7.254239234662691,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608815/5262489c5ee94e0bbb9271d56d556ad3"
+        },
+        {
+          "id": 766608816,
+          "externalID": "209772996",
+          "title": "32 ",
+          "orderIndex": 31,
+          "nimaScore": 7.5869020843546195,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608816/b2a2b3683d3c4997b6f1b11fdb27e2c4"
+        },
+        {
+          "id": 766608817,
+          "externalID": "209773003",
+          "title": "33 ",
+          "orderIndex": 32,
+          "nimaScore": 8.192812610548572,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608817/4249c374b4ea4ea5b12b05555e3dea61"
+        },
+        {
+          "id": 766608818,
+          "externalID": "209773005",
+          "title": "34 ",
+          "orderIndex": 33,
+          "nimaScore": 7.910556498543883,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608818/8c05fd33c9444afd9abc8942a9878bdf"
+        },
+        {
+          "id": 766608819,
+          "externalID": "209773009",
+          "title": "35 ",
+          "orderIndex": 34,
+          "nimaScore": 9.180160169948522,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608819/021a5366e3d243a288408185882df638"
+        },
+        {
+          "id": 766608824,
+          "externalID": "209773035",
+          "title": "36 ",
+          "orderIndex": 35,
+          "nimaScore": 6.003457050867369,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608824/f992919215784d9292084299ba629d79"
+        },
+        {
+          "id": 766608830,
+          "externalID": "209774663",
+          "title": "37 ",
+          "orderIndex": 36,
+          "nimaScore": 7.946309286482574,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608830/a17dfd6387c54f05a9b27bd60fd00e43"
+        },
+        {
+          "id": 766608831,
+          "externalID": "209774679",
+          "title": "38 ",
+          "orderIndex": 37,
+          "nimaScore": 6.859174983645062,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608831/fe18536c2daf4fab920a5823fcd8e8c5"
+        },
+        {
+          "id": 766608832,
+          "externalID": "209774684",
+          "title": "39 ",
+          "orderIndex": 38,
+          "nimaScore": 7.830353531908031,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608832/a5f0285e0aaf412392b546e8ac6acf42"
+        },
+        {
+          "id": 766608834,
+          "externalID": "209774695",
+          "title": "40 ",
+          "orderIndex": 39,
+          "nimaScore": 6.373671926473435,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608834/ec5e16a905654fc59fd38e83ae8054fc"
+        },
+        {
+          "id": 766608835,
+          "externalID": "209774697",
+          "title": "41 ",
+          "orderIndex": 40,
+          "nimaScore": 6.2051504846022,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608835/45d75f8b1b4f4e1e955dc8ecaf3d3c00"
+        },
+        {
+          "id": 766608836,
+          "externalID": "209774699",
+          "title": "42 ",
+          "orderIndex": 41,
+          "nimaScore": 7.60248795550433,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608836/aa90205181d44477ae86dfbc4dc25ca7"
+        },
+        {
+          "id": 766608837,
+          "externalID": "209774701",
+          "title": "43 ",
+          "orderIndex": 42,
+          "nimaScore": 7.503716279839864,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608837/06e84fc0b97a4571bc0f421994d14dbc"
+        },
+        {
+          "id": 766608838,
+          "externalID": "209774704",
+          "title": "44 ",
+          "orderIndex": 43,
+          "nimaScore": 8.63458892152994,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608838/926a3dfadb26441e8ea4349dc6e8089a"
+        },
+        {
+          "id": 766608852,
+          "externalID": "209774850",
+          "title": "45 ",
+          "orderIndex": 44,
+          "nimaScore": 6.076796254861792,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608852/6f35bbcba94a47c0b477fff4a91a20bc"
+        },
+        {
+          "id": 766608839,
+          "externalID": "209774714",
+          "title": "46 ",
+          "orderIndex": 45,
+          "nimaScore": 8.15946577212162,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608839/7137096be0c747c681335597b5eacd1e"
+        },
+        {
+          "id": 766608840,
+          "externalID": "209774742",
+          "title": "47 ",
+          "orderIndex": 46,
+          "nimaScore": 8.07415371825914,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608840/79b8fc1db539454fb6e42a88e9e124af"
+        },
+        {
+          "id": 766608841,
+          "externalID": "209774752",
+          "title": "48 ",
+          "orderIndex": 47,
+          "nimaScore": 7.467522895259208,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608841/fdd29dc58b1b4280b9c77d961863d816"
+        },
+        {
+          "id": 766608842,
+          "externalID": "209774795",
+          "title": "49 ",
+          "orderIndex": 48,
+          "nimaScore": 8.373276298574638,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608842/e7f2ee9bff3c4edaa7fa28e5c1aecad4"
+        },
+        {
+          "id": 766608843,
+          "externalID": "209774803",
+          "title": "50 ",
+          "orderIndex": 49,
+          "nimaScore": 7.024358027178096,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608843/6bba6615948c4069956db0c217c8d579"
+        },
+        {
+          "id": 766608844,
+          "externalID": "209774813",
+          "title": "51 ",
+          "orderIndex": 50,
+          "nimaScore": 7.097501285446924,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608844/4e6da9a797b140d299ef04bfbe9261ac"
+        },
+        {
+          "id": 766608845,
+          "externalID": "209774827",
+          "title": "52 ",
+          "orderIndex": 51,
+          "nimaScore": 6.1072878675240645,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608845/acecce1bb89c4535b1899083be20daee"
+        },
+        {
+          "id": 766608846,
+          "externalID": "209774833",
+          "title": "53 ",
+          "orderIndex": 52,
+          "nimaScore": 8.232918115829307,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608846/981fd971b1cd4e5fa3bf3f069ed0f752"
+        },
+        {
+          "id": 766608848,
+          "externalID": "209774836",
+          "title": "54 ",
+          "orderIndex": 53,
+          "nimaScore": 7.597315696708392,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608848/8992498e3fa94ddb891ca0a1239a3e0f"
+        },
+        {
+          "id": 766608850,
+          "externalID": "209774839",
+          "title": "55 ",
+          "orderIndex": 54,
+          "nimaScore": 6.102283232207995,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608850/ed958d8b0f7d4f2caaea6940f5383c52"
+        },
+        {
+          "id": 766608851,
+          "externalID": "209774842",
+          "title": "56 ",
+          "orderIndex": 55,
+          "nimaScore": 9.284909084747596,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608851/d9ff472870a4431095b85cb9c6533089"
+        },
+        {
+          "id": 766608854,
+          "externalID": "209774872",
+          "title": "57 ",
+          "orderIndex": 56,
+          "nimaScore": 9.464457561724704,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608854/43efa86222bf44b6a8b81be55f8c9c00"
+        },
+        {
+          "id": 766608855,
+          "externalID": "209774873",
+          "title": "58 ",
+          "orderIndex": 57,
+          "nimaScore": 6.117246573116205,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608855/9f8e3bf4f6624341b46510188d58b270"
+        },
+        {
+          "id": 766608857,
+          "externalID": "209774875",
+          "title": "59 ",
+          "orderIndex": 58,
+          "nimaScore": 6.047783944619397,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608857/477162ab02ef4045a327db1b700bc3df"
+        },
+        {
+          "id": 766608858,
+          "externalID": "209774877",
+          "title": "60 ",
+          "orderIndex": 59,
+          "nimaScore": 5.998645919369507,
+          "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/766608858/1daaab4fa86f40aea197564abd584e32"
+        }
+      ],
+      "plotArea": 654.21,
+      "price": 13250000,
+      "product": "superhot",
+      "productLabel": "default",
+      "purpose": "for-sale",
+      "reactivatedAt": 1741353095,
+      "referenceNumber": "VI9222-1S",
+      "rooms": 5,
+      "score": 75,
+      "slug": "stunning-upgrades-i-large-corner-plot-11065329",
+      "sourceID": 1,
+      "state": "active",
+      "title": "Stunning Upgrades I Large Corner Plot",
+      "touchedAt": 1754725967.89938,
+      "type": "property",
+      "updatedAt": 1754720003,
+      "userExternalID": "1163246",
+      "verification": {
+        "status": "verified",
+        "type": null,
+        "eligible": true,
+        "comment": null,
+        "updatedAt": 1754720010.259408,
+        "verifiedAt": 1754720003,
+        "visitedAt": null,
+        "trucheckedAt": 1754720003
+      },
+      "videoCount": 0,
+      "videos": [],
+      "isDeveloper": false,
+      "coverVideo": null,
+      "isStudio": false,
+      "primaryPhoneNumber": "+97142455227",
+      "mobilePhoneNumber": "+971507151741",
+      "coverPhotoID": 766606922,
+      "coverPhotoTitle": "Stunning Upgrades I Large Corner Plot",
+      "labels": {
+        "categoryName": "Villas",
+        "locationNames": [
+          "UAE",
+          "Dubai",
+          "Dubai Sports City",
+          "Victory Heights",
+          "Esmeralda"
+        ],
+        "locationHierarchy": "Esmeralda, Victory Heights, Dubai Sports City, Dubai"
+      },
+      "isOfTitaniumPlusAgency": false,
+      "isOfTitaniumAgency": false,
+      "isOfFeaturedAgency": false,
+      "locationTranslations": [
+        {
+          "en": {
+            "id": 1,
+            "level": 0,
+            "externalID": "5001",
+            "name": "UAE",
+            "slug": "/uae"
+          },
+          "ar": {
+            "id": 1,
+            "level": 0,
+            "externalID": "5001",
+            "name": "الإمارات",
+            "slug": "/uae"
+          },
+          "zh": {
+            "id": 1,
+            "level": 0,
+            "externalID": "5001",
+            "name": "阿联酋",
+            "slug": "/uae"
+          },
+          "ru": {
+            "id": 1,
+            "level": 0,
+            "externalID": "5001",
+            "name": "ОАЭ",
+            "slug": "/uae"
+          }
+        },
+        {
+          "en": {
+            "id": 2,
+            "level": 1,
+            "externalID": "5002",
+            "name": "Dubai",
+            "slug": "/dubai"
+          },
+          "ar": {
+            "id": 2,
+            "level": 1,
+            "externalID": "5002",
+            "name": "دبي",
+            "slug": "/dubai"
+          },
+          "zh": {
+            "id": 2,
+            "level": 1,
+            "externalID": "5002",
+            "name": "迪拜",
+            "slug": "/dubai"
+          },
+          "ru": {
+            "id": 2,
+            "level": 1,
+            "externalID": "5002",
+            "name": "Дубай",
+            "slug": "/dubai"
+          }
+        },
+        {
+          "en": {
+            "id": 67,
+            "level": 2,
+            "externalID": "5274",
+            "name": "Dubai Sports City",
+            "slug": "/dubai/dubai-sports-city",
+            "type": "neighbourhood"
+          },
+          "ar": {
+            "id": 67,
+            "level": 2,
+            "externalID": "5274",
+            "name": "مدينة دبي الرياضية",
+            "slug": "/dubai/dubai-sports-city",
+            "type": "neighbourhood"
+          },
+          "zh": {
+            "id": 67,
+            "level": 2,
+            "externalID": "5274",
+            "name": "迪拜体育城",
+            "slug": "/dubai/dubai-sports-city",
+            "type": "neighbourhood"
+          },
+          "ru": {
+            "id": 67,
+            "level": 2,
+            "externalID": "5274",
+            "name": "Дубай Спортс Сити",
+            "slug": "/dubai/dubai-sports-city",
+            "type": "neighbourhood"
+          }
+        },
+        {
+          "en": {
+            "id": 523,
+            "level": 3,
+            "externalID": "5962",
+            "name": "Victory Heights",
+            "slug": "/dubai/dubai-sports-city/victory-heights",
+            "type": "neighbourhood"
+          },
+          "ar": {
+            "id": 523,
+            "level": 3,
+            "externalID": "5962",
+            "name": "فيكتوري هايتس",
+            "slug": "/dubai/dubai-sports-city/victory-heights",
+            "type": "neighbourhood"
+          },
+          "zh": {
+            "id": 523,
+            "level": 3,
+            "externalID": "5962",
+            "name": "胜利山庄",
+            "slug": "/dubai/dubai-sports-city/victory-heights",
+            "type": "neighbourhood"
+          },
+          "ru": {
+            "id": 523,
+            "level": 3,
+            "externalID": "5962",
+            "name": "Виктори Хайтс",
+            "slug": "/dubai/dubai-sports-city/victory-heights",
+            "type": "neighbourhood"
+          }
+        },
+        {
+          "en": {
+            "id": 1637,
+            "level": 4,
+            "externalID": "7929",
+            "name": "Esmeralda",
+            "slug": "/dubai/dubai-sports-city/victory-heights/esmeralda",
+            "type": "neighbourhood"
+          },
+          "ar": {
+            "id": 1637,
+            "level": 4,
+            "externalID": "7929",
+            "name": "إزميرالدا",
+            "slug": "/dubai/dubai-sports-city/victory-heights/esmeralda",
+            "type": "neighbourhood"
+          },
+          "zh": {
+            "id": 1637,
+            "level": 4,
+            "externalID": "7929",
+            "name": "埃斯莫拉德住宅综合体",
+            "slug": "/dubai/dubai-sports-city/victory-heights/esmeralda",
+            "type": "neighbourhood"
+          },
+          "ru": {
+            "id": 1637,
+            "level": 4,
+            "externalID": "7929",
+            "name": "Эсмеральда",
+            "slug": "/dubai/dubai-sports-city/victory-heights/esmeralda",
+            "type": "neighbourhood"
+          }
+        }
+      ],
+      "locations": [
+        {
+          "externalID": "5001",
+          "id": 1,
+          "isMain": true,
+          "level": 0,
+          "name": "UAE",
+          "slug": "/uae"
+        },
+        {
+          "externalID": "5002",
+          "id": 2,
+          "isMain": true,
+          "level": 1,
+          "name": "Dubai",
+          "slug": "/dubai"
+        },
+        {
+          "externalID": "5274",
+          "id": 67,
+          "isMain": true,
+          "level": 2,
+          "name": "Dubai Sports City",
+          "slug": "/dubai/dubai-sports-city",
+          "type": "neighbourhood"
+        },
+        {
+          "externalID": "5962",
+          "id": 523,
+          "isMain": true,
+          "level": 3,
+          "name": "Victory Heights",
+          "slug": "/dubai/dubai-sports-city/victory-heights",
+          "type": "neighbourhood"
+        },
+        {
+          "externalID": "7929",
+          "id": 1637,
+          "isMain": true,
+          "level": 4,
+          "name": "Esmeralda",
+          "slug": "/dubai/dubai-sports-city/victory-heights/esmeralda",
+          "type": "neighbourhood"
+        }
+      ],
+      "locationsTranslations": [
+        {
+          "en": {
+            "id": 1,
+            "level": 0,
+            "externalID": "5001",
+            "name": "UAE",
+            "slug": "/uae",
+            "isMain": true
+          },
+          "ar": {
+            "id": 1,
+            "level": 0,
+            "externalID": "5001",
+            "name": "الإمارات",
+            "slug": "/uae",
+            "isMain": true
+          },
+          "zh": {
+            "id": 1,
+            "level": 0,
+            "externalID": "5001",
+            "name": "阿联酋",
+            "slug": "/uae",
+            "isMain": true
+          },
+          "ru": {
+            "id": 1,
+            "level": 0,
+            "externalID": "5001",
+            "name": "ОАЭ",
+            "slug": "/uae",
+            "isMain": true
+          }
+        },
+        {
+          "en": {
+            "id": 2,
+            "level": 1,
+            "externalID": "5002",
+            "name": "Dubai",
+            "slug": "/dubai",
+            "isMain": true
+          },
+          "ar": {
+            "id": 2,
+            "level": 1,
+            "externalID": "5002",
+            "name": "دبي",
+            "slug": "/dubai",
+            "isMain": true
+          },
+          "zh": {
+            "id": 2,
+            "level": 1,
+            "externalID": "5002",
+            "name": "迪拜",
+            "slug": "/dubai",
+            "isMain": true
+          },
+          "ru": {
+            "id": 2,
+            "level": 1,
+            "externalID": "5002",
+            "name": "Дубай",
+            "slug": "/dubai",
+            "isMain": true
+          }
+        },
+        {
+          "en": {
+            "id": 67,
+            "level": 2,
+            "externalID": "5274",
+            "name": "Dubai Sports City",
+            "slug": "/dubai/dubai-sports-city",
+            "type": "neighbourhood",
+            "isMain": true
+          },
+          "ar": {
+            "id": 67,
+            "level": 2,
+            "externalID": "5274",
+            "name": "مدينة دبي الرياضية",
+            "slug": "/dubai/dubai-sports-city",
+            "type": "neighbourhood",
+            "isMain": true
+          },
+          "zh": {
+            "id": 67,
+            "level": 2,
+            "externalID": "5274",
+            "name": "迪拜体育城",
+            "slug": "/dubai/dubai-sports-city",
+            "type": "neighbourhood",
+            "isMain": true
+          },
+          "ru": {
+            "id": 67,
+            "level": 2,
+            "externalID": "5274",
+            "name": "Дубай Спортс Сити",
+            "slug": "/dubai/dubai-sports-city",
+            "type": "neighbourhood",
+            "isMain": true
+          }
+        },
+        {
+          "en": {
+            "id": 523,
+            "level": 3,
+            "externalID": "5962",
+            "name": "Victory Heights",
+            "slug": "/dubai/dubai-sports-city/victory-heights",
+            "type": "neighbourhood",
+            "isMain": true
+          },
+          "ar": {
+            "id": 523,
+            "level": 3,
+            "externalID": "5962",
+            "name": "فيكتوري هايتس",
+            "slug": "/dubai/dubai-sports-city/victory-heights",
+            "type": "neighbourhood",
+            "isMain": true
+          },
+          "zh": {
+            "id": 523,
+            "level": 3,
+            "externalID": "5962",
+            "name": "胜利山庄",
+            "slug": "/dubai/dubai-sports-city/victory-heights",
+            "type": "neighbourhood",
+            "isMain": true
+          },
+          "ru": {
+            "id": 523,
+            "level": 3,
+            "externalID": "5962",
+            "name": "Виктори Хайтс",
+            "slug": "/dubai/dubai-sports-city/victory-heights",
+            "type": "neighbourhood",
+            "isMain": true
+          }
+        },
+        {
+          "en": {
+            "id": 1637,
+            "level": 4,
+            "externalID": "7929",
+            "name": "Esmeralda",
+            "slug": "/dubai/dubai-sports-city/victory-heights/esmeralda",
+            "type": "neighbourhood",
+            "isMain": true
+          },
+          "ar": {
+            "id": 1637,
+            "level": 4,
+            "externalID": "7929",
+            "name": "إزميرالدا",
+            "slug": "/dubai/dubai-sports-city/victory-heights/esmeralda",
+            "type": "neighbourhood",
+            "isMain": true
+          },
+          "zh": {
+            "id": 1637,
+            "level": 4,
+            "externalID": "7929",
+            "name": "埃斯莫拉德住宅综合体",
+            "slug": "/dubai/dubai-sports-city/victory-heights/esmeralda",
+            "type": "neighbourhood",
+            "isMain": true
+          },
+          "ru": {
+            "id": 1637,
+            "level": 4,
+            "externalID": "7929",
+            "name": "Эсмеральда",
+            "slug": "/dubai/dubai-sports-city/victory-heights/esmeralda",
+            "type": "neighbourhood",
+            "isMain": true
+          }
+        }
+      ],
+      "categoryTranslations": [
+        {
+          "en": {
+            "id": 1,
+            "level": 0,
+            "externalID": "1",
+            "name": "Residential",
+            "slug": "residential",
+            "nameSingular": "Residential"
+          },
+          "ar": {
+            "id": 1,
+            "level": 0,
+            "externalID": "1",
+            "name": "سكني",
+            "slug": "residential",
+            "nameSingular": "سكني"
+          },
+          "zh": {
+            "id": 1,
+            "level": 0,
+            "externalID": "1",
+            "name": "居住物业",
+            "slug": "residential",
+            "nameSingular": "居住物业"
+          },
+          "ru": {
+            "id": 1,
+            "level": 0,
+            "externalID": "1",
+            "name": "Жилые",
+            "slug": "residential",
+            "nameSingular": "Жилые"
+          }
+        },
+        {
+          "en": {
+            "id": 5,
+            "level": 1,
+            "externalID": "3",
+            "name": "Villas",
+            "slug": "villas",
+            "nameSingular": "Villa"
+          },
+          "ar": {
+            "id": 5,
+            "level": 1,
+            "externalID": "3",
+            "name": "فلل",
+            "slug": "villas",
+            "nameSingular": "فیلا"
+          },
+          "zh": {
+            "id": 5,
+            "level": 1,
+            "externalID": "3",
+            "name": "别墅",
+            "slug": "villas",
+            "nameSingular": "别墅"
+          },
+          "ru": {
+            "id": 5,
+            "level": 1,
+            "externalID": "3",
+            "name": "Виллы",
+            "slug": "villas",
+            "nameSingular": "Вилла"
+          }
+        }
+      ],
+      "hasEmail": true,
+      "mainDescription": "Brand new furnished 5-Bedroom Villa in Victory Heights located on a large corner plot – Modern Luxury Redefined<br /><br />BlackBrick exclusively presents this exceptional 5-bedroom, 4-bathroom villa in the prestigious Victory Heights community. With a built-up area of 4,802 sq. ft. on a 7,100 sq. ft. plot, this residence seamlessly blends timeless elegance with contemporary design. <br /><br />Key Features:<br />Spacious Living: Five luxurious bedrooms, including three with en-suite bathrooms. <br /><br />Modern Upgrades: Newly renovated bathrooms featuring stylish RAK tiles and sleek black fittings. <br /><br />Gourmet Kitchen: Redesigned to maximize storage space, elegant island, complemented by a separate laundry area and walk-in pantry. <br /><br />Smart Home Features: Equipped with a new AC system controlled by Nest thermostats, smart lighting, and Ring doorbell. <br /><br />Elegant Interiors: Herringbone LVT flooring, carpeted bedrooms, and high ceilings throughout. <br /><br />Outdoor Oasis: A tranquil garden with a tiled pool, large pergola with fan, barbecue area, wine fridge, and lush greenery. <br /><br />Additional Amenities: New front door, new water heaters, freshly painted interior and exterior, secure compound with electric garage doors. <br /><br />Community Highlights:<br />Victory Heights offers lush golf course views and a luxurious lifestyle. Residents enjoy proximity to world-class golf courses, leisure facilities, and the largest park in the community. <br /><br />This brand-new villa is ready for immediate occupancy. <br /><br />Don't miss the opportunity to own this exquisite villa that epitomizes luxury living in Victory Heights.",
+      "descriptionTranslated": false,
+      "links": {
+        "bedsLinks": [
+          {
+            "location": {
+              "name": "Dubai",
+              "slug": "/dubai",
+              "type": null
+            },
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "purpose": "for-sale",
+            "beds": 5
+          },
+          {
+            "location": {
+              "name": "Dubai Sports City",
+              "slug": "/dubai/dubai-sports-city",
+              "type": "neighbourhood"
+            },
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "purpose": "for-sale",
+            "beds": 5
+          },
+          {
+            "location": {
+              "name": "Victory Heights",
+              "slug": "/dubai/dubai-sports-city/victory-heights",
+              "type": "neighbourhood"
+            },
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "purpose": "for-sale",
+            "beds": 5
+          }
+        ],
+        "topLevelCategoryLinks": [
+          {
+            "location": {
+              "name": "Dubai",
+              "slug": "/dubai",
+              "type": null
+            },
+            "category": {
+              "name": "Residential",
+              "slug": "residential"
+            },
+            "purpose": "for-sale"
+          },
+          {
+            "location": {
+              "name": "Dubai Sports City",
+              "slug": "/dubai/dubai-sports-city",
+              "type": "neighbourhood"
+            },
+            "category": {
+              "name": "Residential",
+              "slug": "residential"
+            },
+            "purpose": "for-sale"
+          },
+          {
+            "location": {
+              "name": "Victory Heights",
+              "slug": "/dubai/dubai-sports-city/victory-heights",
+              "type": "neighbourhood"
+            },
+            "category": {
+              "name": "Residential",
+              "slug": "residential"
+            },
+            "purpose": "for-sale"
+          }
+        ],
+        "nearbyLinks": [
+          {
+            "adcount": 5,
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "location": {
+              "name": "Novelia",
+              "slug": "/dubai/dubai-sports-city/victory-heights/novelia",
+              "type": "neighbourhood"
+            },
+            "purpose": "for-sale"
+          },
+          {
+            "adcount": 6,
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "location": {
+              "name": "Carmen",
+              "slug": "/dubai/dubai-sports-city/victory-heights/carmen",
+              "type": "neighbourhood"
+            },
+            "purpose": "for-sale"
+          },
+          {
+            "adcount": 69,
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "location": {
+              "name": "Harmony 3",
+              "slug": "/dubai/tilal-al-ghaf/harmony/harmony-3",
+              "type": "neighbourhood"
+            },
+            "purpose": "for-sale"
+          },
+          {
+            "adcount": 1,
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "location": {
+              "name": "Sevilla",
+              "slug": "/dubai/dubai-sports-city/victory-heights/sevilla",
+              "type": "neighbourhood"
+            },
+            "purpose": "for-sale"
+          },
+          {
+            "adcount": 13,
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "location": {
+              "name": "Estella Village",
+              "slug": "/dubai/dubai-sports-city/victory-heights/estella-village",
+              "type": "neighbourhood"
+            },
+            "purpose": "for-sale"
+          }
+        ],
+        "nearbyAreasLinks": [
+          {
+            "adcount": 422,
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "location": {
+              "name": "Tilal Al Ghaf",
+              "slug": "/dubai/tilal-al-ghaf",
+              "type": "neighbourhood"
+            },
+            "purpose": "for-sale"
+          },
+          {
+            "adcount": 16,
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "location": {
+              "name": "Motor City",
+              "slug": "/dubai/motor-city",
+              "type": "neighbourhood"
+            },
+            "purpose": "for-sale"
+          },
+          {
+            "adcount": 228,
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "location": {
+              "name": "DAMAC Lagoons",
+              "slug": "/dubai/damac-lagoons",
+              "type": "neighbourhood"
+            },
+            "purpose": "for-sale"
+          },
+          {
+            "adcount": 140,
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "location": {
+              "name": "Jumeirah Village Circle (JVC)",
+              "slug": "/dubai/jumeirah-village-circle-jvc",
+              "type": "neighbourhood"
+            },
+            "purpose": "for-sale"
+          },
+          {
+            "adcount": 312,
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "location": {
+              "name": "The Oasis by Emaar",
+              "slug": "/dubai/the-oasis-by-emaar",
+              "type": "neighbourhood"
+            },
+            "purpose": "for-sale"
+          }
+        ],
+        "investInOffPlan": [
+          {
+            "category": {
+              "name": "Residential",
+              "slug": "residential"
+            },
+            "location": {
+              "name": "Dubai Sports City",
+              "slug": "/dubai/dubai-sports-city",
+              "type": "neighbourhood"
+            },
+            "purpose": "for-sale"
+          },
+          {
+            "category": {
+              "name": "Residential",
+              "slug": "residential"
+            },
+            "location": {
+              "name": "Dubai",
+              "slug": "/dubai",
+              "type": null
+            },
+            "purpose": "for-sale"
+          },
+          {
+            "category": {
+              "name": "Villas",
+              "slug": "villas"
+            },
+            "location": {
+              "name": "Dubai",
+              "slug": "/dubai",
+              "type": null
+            },
+            "purpose": "for-sale"
+          }
+        ]
+      }
+    },
+    "extracted": {
+      "permit_number": "6512617700",
+      "permit_url": null,
+      "zone_name": null
+    }
+  }
+}

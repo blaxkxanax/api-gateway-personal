@@ -149,7 +149,7 @@ export class OAuthService {
       ...createClientDto,
       clientId,
       clientSecret,
-      redirectUris: createClientDto.redirectUris || ['https://api.provident.ae/auth/callback'],
+      redirectUris: createClientDto.redirectUris || ['http://localhost:9000/auth/callback'],
       creatorPrincipalId: creatorId, // Use the renamed field
       // Explicitly map fields with different casing
       ip_restriction: createClientDto.ipRestriction,

@@ -9,7 +9,8 @@ import configuration from './config/configuration';
 import { AuthModule } from './auth/auth.module';
 import { OAuthModule } from './oauth2/oauth.module';
 import { UsersModule } from './users/users.module';
-import { TestModule } from './apps/test/test.module';
+import { NoxumModule } from './apps/noxum/noxum.module';
+import { DubaiunitfinderModule } from './apps/dubaiunitfinder/dubaiunitfinder.module';
 import { TokenLoggingMiddleware } from './middleware/token-logging.middleware';
 import { PsqlRateLimitGuard } from './oauth2/guards/psql-rate-limit.guard';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
@@ -38,7 +39,8 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
     OAuthModule,
     AuthModule,
     UsersModule,
-    TestModule,
+    NoxumModule,
+    DubaiunitfinderModule,
     ThrottlerModule,
   ],
   controllers: [AppController],

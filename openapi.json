@@ -27,11 +27,7 @@
         },
         "tags": [
           "OAuth"
-        ],
-        "x-auth-type": "OAuth 2.0",
-        "x-client-authentication": "body",
-        "security": [],
-        "summary": "Get access token"
+        ]
       }
     },
     "/oauth2/clients": {
@@ -68,8 +64,7 @@
         "summary": "Create a new OAuth client",
         "tags": [
           "oauth2-clients"
-        ],
-        "x-excluded": true
+        ]
       },
       "get": {
         "operationId": "ClientController_listClients",
@@ -97,8 +92,7 @@
         "summary": "List all OAuth clients",
         "tags": [
           "oauth2-clients"
-        ],
-        "x-excluded": true
+        ]
       }
     },
     "/oauth2/clients/{clientId}": {
@@ -134,8 +128,7 @@
         "summary": "Get an OAuth client by Client ID",
         "tags": [
           "oauth2-clients"
-        ],
-        "x-excluded": true
+        ]
       },
       "put": {
         "operationId": "ClientController_updateClient",
@@ -179,8 +172,7 @@
         "summary": "Update an OAuth client by Client ID",
         "tags": [
           "oauth2-clients"
-        ],
-        "x-excluded": true
+        ]
       },
       "delete": {
         "operationId": "ClientController_deleteClient",
@@ -214,8 +206,7 @@
         "summary": "Deactivate an OAuth client by Client ID (sets isActive=false)",
         "tags": [
           "oauth2-clients"
-        ],
-        "x-excluded": true
+        ]
       }
     },
     "/oauth2/clients/{clientId}/rotate-secret": {
@@ -244,8 +235,7 @@
         "summary": "Rotate client secret by Client ID",
         "tags": [
           "oauth2-clients"
-        ],
-        "x-excluded": true
+        ]
       }
     },
     "/oauth2/introspect": {
@@ -277,14 +267,6 @@
         "summary": "Introspect a token",
         "tags": [
           "oauth2-tokens"
-        ],
-        "x-excluded": true,
-        "security": [
-          {
-            "oauth2": [
-              "oauth2:introspect"
-            ]
-          }
         ]
       }
     },
@@ -310,1921 +292,119 @@
         "summary": "Revoke a token",
         "tags": [
           "oauth2-tokens"
-        ],
-        "x-excluded": true,
-        "security": [
-          {
-            "oauth2": [
-              "oauth2:revoke"
-            ]
-          }
         ]
       }
     },
-    "/apps/test": {
-      "get": {
-        "description": "A simple test endpoint that requires test:test:test scope and returns success true",
-        "operationId": "TestController_getTest",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Success response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden - Invalid scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Test endpoint",
-        "tags": [
-          "test"
-        ]
-      }
-    },
-    "/test": {
-      "get": {
-        "description": "A simple test endpoint that requires test:test:test scope and returns success true",
-        "operationId": "TestController_getTest",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Success response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden - Invalid scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Test endpoint",
-        "tags": [
-          "test"
-        ]
-      }
-    },
-    "/apps/portal/data/users": {
-      "get": {
-        "operationId": "PortalController_getUsersData",
-        "parameters": [
-          {
-            "name": "bitrix_id",
-            "required": false,
-            "in": "query",
-            "description": "Bitrix ID (required for manual runs)",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "startDate",
-            "required": false,
-            "in": "query",
-            "description": "Start date (YYYY-MM-DD)",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "endDate",
-            "required": false,
-            "in": "query",
-            "description": "End date (YYYY-MM-DD)",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "automated_run",
-            "required": false,
-            "in": "query",
-            "description": "Flag for automated daily run. If true, run_date is required.",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "run_date",
-            "required": false,
-            "in": "query",
-            "description": "Date for automated run (YYYY-MM-DD).",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User data retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "User data retrieved successfully"
-                    },
-                    "data": {
-                      "type": "object",
-                      "example": {
-                        "bitrix_id": 12345,
-                        "source_table": "users",
-                        "owner_searches": {
-                          "successful": 45,
-                          "unsuccessful": 5,
-                          "total": 50
-                        },
-                        "unit_searches": {
-                          "successful": 100,
-                          "unsuccessful": 50,
-                          "total": 150
-                        },
-                        "total_searches": 200,
-                        "areas_searched_vs_assigned": "10 / 25",
-                        "elk_error": null
-                      },
-                      "properties": {
-                        "bitrix_id": {
-                          "type": "number"
-                        },
-                        "source_table": {
-                          "type": "string"
-                        },
-                        "owner_searches": {
-                          "type": "object",
-                          "properties": {
-                            "successful": {
-                              "type": "number"
-                            },
-                            "unsuccessful": {
-                              "type": "number"
-                            },
-                            "total": {
-                              "type": "number"
-                            }
-                          }
-                        },
-                        "unit_searches": {
-                          "type": "object",
-                          "properties": {
-                            "successful": {
-                              "type": "number"
-                            },
-                            "unsuccessful": {
-                              "type": "number"
-                            },
-                            "total": {
-                              "type": "number"
-                            }
-                          }
-                        },
-                        "total_searches": {
-                          "type": "number"
-                        },
-                        "areas_searched_vs_assigned": {
-                          "type": "string"
-                        },
-                        "elk_error": {
-                          "type": "string",
-                          "nullable": true
-                        }
-                      }
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "format": "date-time",
-                      "example": "2025-07-17T12:24:36.043Z"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Access token is missing or invalid"
-          },
-          "403": {
-            "description": "Insufficient scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get user data from Telegram DB and ELK via PortalService",
-        "tags": [
-          "portal"
-        ],
-        "description": "Retrieves user details from 'users' or 'users_deleted' tables and  summarized activity from 'found_units' and 'missing_units' based on Bitrix ID.  Allows filtering by date and can provide a full or summarized activity report.\n"
-      }
-    },
-    "/apps/portal/data/users/historical-sync": {
-      "get": {
-        "operationId": "PortalController_triggerHistoricalSync",
-        "parameters": [],
-        "responses": {
-          "202": {
-            "description": "Historical sync process started."
-          },
-          "401": {
-            "description": "Access token is missing or invalid"
-          },
-          "403": {
-            "description": "Insufficient scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Trigger a historical sync of user activity from ELK to Bitrix.",
-        "tags": [
-          "portal"
-        ]
-      }
-    },
-    "/apps/portal/data/pf/locations/search": {
-      "get": {
-        "operationId": "PortalController_searchLocations",
-        "parameters": [
-          {
-            "name": "city",
-            "required": false,
-            "in": "query",
-            "description": "City name (defaults to Dubai)",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "community",
-            "required": false,
-            "in": "query",
-            "description": "Community name",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "sub_community",
-            "required": false,
-            "in": "query",
-            "description": "Sub-community name",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "tower",
-            "required": false,
-            "in": "query",
-            "description": "Tower name",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Locations found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "example": {
-                    "success": true,
-                    "data": {
-                      "Dubai": {
-                        "Mohammed Bin Rashid City": {
-                          "The Cube Residences": {}
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request - no search criteria provided"
-          },
-          "401": {
-            "description": "Access token is missing or invalid"
-          },
-          "403": {
-            "description": "Insufficient scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Search PF locations data",
-        "tags": [
-          "portal"
-        ]
-      }
-    },
-    "/apps/portal/data/pf/locations/search/telegram": {
-      "get": {
-        "operationId": "PortalController_searchLocationsForTelegram",
-        "parameters": [
-          {
-            "name": "city",
-            "required": false,
-            "in": "query",
-            "description": "City name (defaults to Dubai)",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "q",
-            "required": true,
-            "in": "query",
-            "description": "Search query term",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "level",
-            "required": true,
-            "in": "query",
-            "description": "1: community only, 2: community and sub-community, 3: community, sub-community and tower",
-            "schema": {
-              "enum": [
-                1,
-                2,
-                3
-              ],
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Locations found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "example": {
-                    "success": true,
-                    "data": {
-                      "Dubai": {
-                        "Mohammed Bin Rashid City": {
-                          "The Cube Residences": {}
-                        }
-                      }
-                    },
-                    "data-pf": [
-                      {
-                        "Dubai": [
-                          {
-                            "Al Satwa": []
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request - missing required parameters"
-          },
-          "401": {
-            "description": "Access token is missing or invalid"
-          },
-          "403": {
-            "description": "Insufficient scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Search PF locations data for Telegram",
-        "tags": [
-          "portal"
-        ]
-      }
-    },
-    "/apps/portal/data/pf/locations/locationidfromname": {
-      "get": {
-        "operationId": "PortalController_getLocationIdByName",
-        "parameters": [
-          {
-            "name": "city",
-            "required": true,
-            "in": "query",
-            "description": "City name",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "community",
-            "required": false,
-            "in": "query",
-            "description": "Community name",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "sub_community",
-            "required": false,
-            "in": "query",
-            "description": "Sub-community name",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "tower",
-            "required": false,
-            "in": "query",
-            "description": "Tower name",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Locations found. The ID is trimmed to its last numeric part.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "example": [
-                    {
-                      "id": "13532",
-                      "level": "Sub Community",
-                      "city": "Dubai",
-                      "community": "Mohammed Bin Rashid City",
-                      "sub_community": "The Cube Residences",
-                      "tower": null
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request - city is required, and at least one of community, sub_community, or tower must be provided."
-          },
-          "401": {
-            "description": "Access token is missing or invalid"
-          },
-          "403": {
-            "description": "Insufficient scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get location ID from name by exact match.",
-        "tags": [
-          "portal"
-        ]
-      }
-    },
-    "/apps/portal/leads/update": {
+    "/apps/noxum/properties": {
       "post": {
-        "operationId": "PortalController_updateLeads",
+        "description": "Retrieves properties data from the specified URL",
+        "operationId": "NoxumController_getProperties",
         "parameters": [
           {
-            "name": "leadid",
+            "name": "url",
             "required": true,
             "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "name",
-            "required": true,
-            "in": "query",
+            "description": "URL to fetch properties data from",
             "schema": {
               "type": "string"
             }
           },
-          {
-            "name": "phone",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "email",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "token",
-            "required": true,
-            "in": "query",
-            "description": "Static token for authentication.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Leads updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Leads updated successfully"
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "format": "date-time"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Access token is missing or invalid"
-          },
-          "403": {
-            "description": "Insufficient scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Update leads data",
-        "tags": [
-          "portal"
-        ]
-      }
-    },
-    "/apps/portal/leads/enrich": {
-      "post": {
-        "operationId": "PortalController_enrichLeads",
-        "parameters": [
-          {
-            "name": "leadid",
-            "required": true,
-            "in": "query",
-            "description": "The ID of the lead to enrich.",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "name",
-            "required": false,
-            "in": "query",
-            "description": "The name of the lead.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "phone",
-            "required": false,
-            "in": "query",
-            "description": "The phone number of the lead.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "email",
-            "required": false,
-            "in": "query",
-            "description": "The email address of the lead.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "token",
-            "required": true,
-            "in": "query",
-            "description": "Static token for authentication.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Leads enriched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Leads enriched successfully"
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "format": "date-time"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request - missing required parameters."
-          },
-          "401": {
-            "description": "Access token is missing or invalid"
-          },
-          "403": {
-            "description": "Insufficient scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Enrich leads data",
-        "tags": [
-          "portal"
-        ]
-      }
-    },
-    "/apps/portal/leads/process": {
-      "post": {
-        "operationId": "PortalController_processLead",
-        "parameters": [
-          {
-            "name": "leadid",
-            "required": true,
-            "in": "query",
-            "description": "The ID of the lead to process.",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "name",
-            "required": false,
-            "in": "query",
-            "description": "The name of the lead.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "phone",
-            "required": false,
-            "in": "query",
-            "description": "The phone number of the lead.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "email",
-            "required": false,
-            "in": "query",
-            "description": "The email address of the lead.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "token",
-            "required": true,
-            "in": "query",
-            "description": "Static token for authentication.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Lead processing has been queued.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Lead processing has been queued."
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "updateTask": {
-                          "type": "object"
-                        },
-                        "enrichTask": {
-                          "type": "object"
-                        }
-                      }
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "format": "date-time"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request - missing required parameters."
-          },
-          "401": {
-            "description": "Access token is missing or invalid"
-          },
-          "403": {
-            "description": "Insufficient scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Queue a lead for both update and enrichment.",
-        "tags": [
-          "portal"
-        ]
-      }
-    },
-    "/apps/bitrix/dev.rest.match/user": {
-      "get": {
-        "operationId": "BitrixController_getMatchUser",
-        "parameters": [
-          {
-            "name": "start",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "id",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "email",
-            "required": false,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "active",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns matched user data from Bitrix24"
-          }
-        },
-        "summary": "Get matched user from Bitrix24",
-        "tags": [
-          "Bitrix"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "crm:user:read"
-            ]
-          }
-        ]
-      }
-    },
-    "/apps/bitrix/crm/lead": {
-      "get": {
-        "operationId": "BitrixController_getLead",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns lead data from Bitrix24"
-          }
-        },
-        "summary": "Get lead from Bitrix24",
-        "tags": [
-          "Bitrix"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "crm:lead:read"
-            ]
-          }
-        ]
-      },
-      "post": {
-        "operationId": "BitrixController_createLandingLead",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "Lead data stored successfully."
-          },
-          "400": {
-            "description": "Bad request - must provide query parameters OR a JSON body, not both or neither."
-          }
-        },
-        "summary": "Create a lead from a landing page",
-        "tags": [
-          "Bitrix"
-        ]
-      }
-    },
-    "/apps/bitrix/crm/product": {
-      "get": {
-        "operationId": "BitrixController_getProduct",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns product data from Bitrix24"
-          }
-        },
-        "summary": "Get product from Bitrix24",
-        "tags": [
-          "Bitrix"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "crm:property:read"
-            ]
-          }
-        ]
-      }
-    },
-    "/apps/bitrix/crm/item": {
-      "get": {
-        "operationId": "BitrixController_getItem",
-        "parameters": [
-          {
-            "name": "categoryId",
-            "required": false,
-            "in": "query",
-            "description": "Category ID",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "entityTypeId",
-            "required": true,
-            "in": "query",
-            "description": "Entity Type ID",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "id",
-            "required": true,
-            "in": "query",
-            "description": "Item ID",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns CRM item data from Bitrix24"
-          }
-        },
-        "summary": "Get CRM item from Bitrix24",
-        "tags": [
-          "Bitrix"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "crm:item:read"
-            ]
-          }
-        ]
-      },
-      "post": {
-        "operationId": "BitrixController_createItem",
-        "parameters": [
-          {
-            "name": "UF_CRM_*",
-            "required": false,
-            "in": "query",
-            "description": "Any field starting with UF_CRM_ will be passed to Bitrix24. Replace * with your field ID (e.g., UF_CRM_1738662524610).",
-            "schema": {}
-          },
-          {
-            "name": "categoryId",
-            "required": false,
-            "in": "query",
-            "description": "Category ID",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "entityTypeId",
-            "required": true,
-            "in": "query",
-            "description": "Entity Type ID",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "CRM item created successfully"
-          }
-        },
-        "summary": "Create a new CRM item in Bitrix24",
-        "tags": [
-          "Bitrix"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "crm:item:write"
-            ]
-          }
-        ]
-      }
-    },
-    "/apps/bitrix/crm/lead/product_rows": {
-      "get": {
-        "operationId": "BitrixController_getLeadProductRows",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "query",
-            "description": "Lead ID",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns lead product rows data from Bitrix24"
-          }
-        },
-        "summary": "Get lead product rows from Bitrix24",
-        "tags": [
-          "Bitrix"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "crm:lead:read"
-            ]
-          }
-        ]
-      }
-    },
-    "/apps/bitrix/dev.rest.match/lead.add": {
-      "post": {
-        "operationId": "BitrixController_createLead",
-        "parameters": [
-          {
-            "name": "fields[UF_CRM_*]",
-            "required": false,
-            "in": "query",
-            "description": "Any custom field. This endpoint accepts ANY parameters with the format fields[FIELD_NAME]. All parameters will be passed directly to Bitrix24.",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1691152540]",
-            "required": false,
-            "in": "query",
-            "description": "Project/Tower name (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1683112010881]",
-            "required": false,
-            "in": "query",
-            "description": "Google Click ID GCLID (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UTM]",
-            "required": false,
-            "in": "query",
-            "description": "UTM parameters (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1698317669]",
-            "required": false,
-            "in": "query",
-            "description": "[integrately] include to RR - e.g. Developer distribution, etc. (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1668583816018]",
-            "required": false,
-            "in": "query",
-            "description": "Area (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1671263698]",
-            "required": false,
-            "in": "query",
-            "description": "Developer Name (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_LEAD_CAMPAIGN_NAME]",
-            "required": false,
-            "in": "query",
-            "description": "Campaign Name (to use) SPA (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1671193833]",
-            "required": false,
-            "in": "query",
-            "description": "Campaign Name (to use) (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1669724702692]",
-            "required": false,
-            "in": "query",
-            "description": "Portal Ref # (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_FULL_ADDRESS]",
-            "required": false,
-            "in": "query",
-            "description": "Full Address (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1671264262]",
-            "required": false,
-            "in": "query",
-            "description": "Property Type (Marketing) - e.g. Apartment, Hotel Apartment, etc. (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1669724817221]",
-            "required": false,
-            "in": "query",
-            "description": "URL (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1693212768]",
-            "required": false,
-            "in": "query",
-            "description": "Marketing Type - accepts Paid or Organic (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1669720090012]",
-            "required": false,
-            "in": "query",
-            "description": "Platform (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1693214140]",
-            "required": false,
-            "in": "query",
-            "description": "Event Type - e.g. Submit Form, Phone Click, etc. (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[SOURCE_ID]",
-            "required": false,
-            "in": "query",
-            "description": "Source - e.g. Agent creation, Personal Campaign, etc. (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1694427534]",
-            "required": false,
-            "in": "query",
-            "description": "Include into round-robin 1 - accepts 0 or 1 (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_64AEB0AA71C9B]",
-            "required": false,
-            "in": "query",
-            "description": "Domain Source - e.g. Providentestate Website, etc. (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[ASSIGNED_BY_ID]",
-            "required": false,
-            "in": "query",
-            "description": "Responsible Person - email format (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1670579940556]",
-            "required": false,
-            "in": "query",
-            "description": "Lead Type - e.g. Primary Buyer, Secondary Buyer, etc. (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[UF_CRM_1668678672905]",
-            "required": false,
-            "in": "query",
-            "description": "Original Source List - e.g. WhatsApp, AdChina, etc. (string)",
-            "schema": {}
-          },
-          {
-            "name": "fields[EMAIL][0][VALUE]",
-            "required": false,
-            "in": "query",
-            "description": "E-mail - (string). Either Email or Phone must be provided.",
-            "schema": {}
-          },
-          {
-            "name": "fields[PHONE][0][VALUE]",
-            "required": false,
-            "in": "query",
-            "description": "Phone - must include + prefix (string). Either Phone or Email must be provided.",
-            "schema": {}
-          },
-          {
-            "name": "fields[NAME]",
-            "required": false,
-            "in": "query",
-            "description": "Full Name - (string)",
-            "schema": {}
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Lead created successfully"
-          },
-          "400": {
-            "description": "Bad request - validation error"
-          }
-        },
-        "summary": "Create a new lead in Bitrix24",
-        "tags": [
-          "Bitrix"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "crm:lead:write"
-            ]
-          }
-        ]
-      }
-    },
-    "/apps/bitrix/process/terminate/geniemap": {
-      "post": {
-        "operationId": "BitrixController_terminateGeniemapUser",
-        "parameters": [
-          {
-            "name": "email",
-            "required": false,
-            "in": "query",
-            "description": "Email of the user to terminate.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "bitrix_id",
-            "required": false,
-            "in": "query",
-            "description": "Bitrix ID of the user to terminate.",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User termination process initiated in GenieMap."
-          },
-          "400": {
-            "description": "Bad Request (e.g., missing email/bitrix_id)"
-          },
-          "404": {
-            "description": "User not found in Bitrix or GenieMap"
-          },
-          "500": {
-            "description": "Internal server error during termination process"
-          }
-        },
-        "summary": "Terminate a user in GenieMap based on Bitrix ID or Email",
-        "tags": [
-          "Bitrix"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "bitrix:process:terminate"
-            ]
-          }
-        ],
-        "description": "Initiates the termination process for a user in GenieMap using either their Bitrix ID or email address. Requires 'bitrix:process:terminate' scope."
-      }
-    },
-    "/apps/bitrix/process/terminate/jumpcloud": {
-      "post": {
-        "operationId": "BitrixController_terminateJumpcloudUser",
-        "parameters": [
-          {
-            "name": "email",
-            "required": false,
-            "in": "query",
-            "description": "Email of the user to terminate.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "bitrix_id",
-            "required": false,
-            "in": "query",
-            "description": "Bitrix ID of the user to terminate.",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User termination process initiated in Jumpcloud."
-          },
-          "400": {
-            "description": "Bad Request (e.g., missing email/bitrix_id, or Jumpcloud ID not found)"
-          },
-          "404": {
-            "description": "User not found in Bitrix or Jumpcloud"
-          },
-          "409": {
-            "description": "Conflict (e.g., multiple users found for email)"
-          },
-          "500": {
-            "description": "Internal server error during termination process"
-          }
-        },
-        "summary": "Terminate a user in Jumpcloud based on Bitrix ID or Email",
-        "tags": [
-          "Bitrix"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "bitrix:process:terminate"
-            ]
-          }
-        ],
-        "description": "Schedules the suspension of a user in Jumpcloud using either their Bitrix ID or email address. Requires 'bitrix:process:terminate' scope."
-      }
-    },
-    "/apps/bitrix/process/terminate/telegram": {
-      "post": {
-        "operationId": "BitrixController_terminateTelegramUser",
-        "parameters": [
-          {
-            "name": "email",
-            "required": false,
-            "in": "query",
-            "description": "Email of the user to terminate.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "bitrix_id",
-            "required": false,
-            "in": "query",
-            "description": "Bitrix ID of the user to terminate.",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User termination process completed in Telegram DB.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request (e.g., missing email/bitrix_id)"
-          },
-          "404": {
-            "description": "User not found in Bitrix or Telegram DB"
-          },
-          "409": {
-            "description": "Conflict (e.g., multiple users found for email in Telegram DB)"
-          },
-          "500": {
-            "description": "Internal server error during termination process"
-          },
-          "503": {
-            "description": "Service Unavailable (Telegram DB connection issue)"
-          }
-        },
-        "summary": "Terminate a user in Telegram DB based on Bitrix ID or Email",
-        "tags": [
-          "Bitrix"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "bitrix:process:terminate"
-            ]
-          }
-        ],
-        "description": "Initiates the termination process for a user in Telegram using either their Bitrix ID or email address. Requires 'bitrix:process:terminate' scope."
-      }
-    },
-    "/apps/jumpcloud/users": {
-      "get": {
-        "operationId": "JumpcloudController_getSystemUsers",
-        "parameters": [
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "description": "The number of records to return at once",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "skip",
-            "required": false,
-            "in": "query",
-            "description": "The offset into the records to return",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "sort",
-            "required": false,
-            "in": "query",
-            "description": "The space separated fields used to sort the collection",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "The space separated fields included in the returned records",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "filter",
-            "required": false,
-            "in": "query",
-            "description": "A filter to apply to the query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "search",
-            "required": false,
-            "in": "query",
-            "description": "A search term to apply to the query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns all system users"
-          }
-        },
-        "summary": "List all system users",
-        "tags": [
-          "JumpCloud"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "jumpcloud:users:read"
-            ]
-          }
-        ],
-        "description": "Returns a list of all system users from JumpCloud"
-      }
-    },
-    "/apps/jumpcloud/groups": {
-      "get": {
-        "operationId": "JumpcloudController_getUserGroups",
-        "parameters": [
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "The space separated fields included in the returned records",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "filter",
-            "required": false,
-            "in": "query",
-            "description": "A filter to apply to the query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "description": "The number of records to return at once",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "skip",
-            "required": false,
-            "in": "query",
-            "description": "The offset into the records to return",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "sort",
-            "required": false,
-            "in": "query",
-            "description": "The space separated fields used to sort the collection",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns all user groups"
-          }
-        },
-        "summary": "List all user groups",
-        "tags": [
-          "JumpCloud"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "jumpcloud:groups:read"
-            ]
-          }
-        ],
-        "description": "Returns a list of all user groups from JumpCloud"
-      }
-    },
-    "/apps/jumpcloud/users/{userId}/memberof": {
-      "get": {
-        "operationId": "JumpcloudController_getUserMemberOf",
-        "parameters": [
           {
             "name": "userId",
-            "required": true,
-            "in": "path",
-            "description": "ObjectID of the User",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "filter",
             "required": false,
             "in": "query",
-            "description": "A filter to apply to the query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "description": "The number of records to return at once",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "skip",
-            "required": false,
-            "in": "query",
-            "description": "The offset into the records to return",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "sort",
-            "required": false,
-            "in": "query",
-            "description": "The space separated fields used to sort the collection",
-            "schema": {
-              "type": "string"
-            }
+            "description": "DUF user ID (required if client is dubaiunitfinder)",
+            "schema": {}
           }
         ],
         "responses": {
           "200": {
-            "description": "Returns all parent groups of the user"
-          }
-        },
-        "summary": "List the parent Groups of a User",
-        "tags": [
-          "JumpCloud"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "jumpcloud:users:read"
-            ]
-          }
-        ],
-        "description": "Returns a list of all groups that a user is a member of"
-      }
-    },
-    "/apps/jumpcloud/bulk/userstates": {
-      "get": {
-        "operationId": "JumpcloudController_listBulkUserStates",
-        "parameters": [
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "description": "The number of records to return at once. Default is 10, max is 100.",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "skip",
-            "required": false,
-            "in": "query",
-            "description": "The offset into the records to return. Default is 0.",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "filter",
-            "required": false,
-            "in": "query",
-            "description": "A filter to apply to the query.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "userid",
-            "required": false,
-            "in": "query",
-            "description": "The systemuser id to filter by.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
+            "description": "Properties data retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ScheduledUserstateResultDto"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "409": {
-            "description": "Conflict"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "summary": "List Scheduled Userstate Change Jobs",
-        "tags": [
-          "JumpCloud"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "jumpcloud:users:read"
-            ]
-          }
-        ],
-        "description": "Returns a list of scheduled user state change jobs from JumpCloud."
-      },
-      "post": {
-        "operationId": "JumpcloudController_createBulkUserStates",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "description": "Details for the scheduled state change job.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BulkScheduledStatechangeCreateDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ScheduledUserstateResultDto"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "summary": "Create Scheduled Userstate Job",
-        "tags": [
-          "JumpCloud"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "jumpcloud:users:write"
-            ]
-          }
-        ],
-        "description": "Creates a scheduled user state change job in JumpCloud."
-      }
-    },
-    "/apps/jumpcloud/search/systemusers": {
-      "post": {
-        "operationId": "JumpcloudController_searchSystemUsers",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "description": "Search criteria for system users.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "filter": {
-                    "type": "object",
-                    "description": "A filter object (e.g., { \"email\": { \"$eq\": \"user@example.com\" } })"
-                  },
-                  "searchFilter": {
-                    "type": "object",
-                    "description": "Alternative search filter object"
-                  },
-                  "fields": {
-                    "type": "string",
-                    "description": "Comma-separated list of fields to return"
-                  },
-                  "limit": {
-                    "type": "integer",
-                    "default": 10
-                  },
-                  "skip": {
-                    "type": "integer",
-                    "default": 0
-                  }
-                },
-                "example": {
-                  "filter": {
-                    "email": {
-                      "$eq": "test.user@example.com"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "endpoint": {
+                      "type": "string",
+                      "example": "properties"
+                    },
+                    "url": {
+                      "type": "string",
+                      "example": "https://example.com"
                     }
-                  },
-                  "fields": "_id, email, username",
-                  "limit": 1
+                  }
                 }
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Search results"
-          },
-          "400": {
-            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
+            "description": "Forbidden - Invalid scope"
           }
         },
-        "summary": "Search for system users",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get properties data",
         "tags": [
-          "JumpCloud"
+          "noxum"
         ]
       }
     },
-    "/apps/geniemap/emirates": {
+    "/apps/noxum/floorplans": {
       "get": {
-        "operationId": "GeniemapController_getEmirates",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get all emirates",
-        "tags": [
-          "GenieMap"
-        ],
-        "description": "Get a list of all emirates in the UAE"
-      }
-    },
-    "/apps/geniemap/emirates/{id}": {
-      "get": {
-        "operationId": "GeniemapController_getEmirateById",
+        "description": "Retrieves floorplans data from the specified URL",
+        "operationId": "NoxumController_getFloorplans",
         "parameters": [
           {
-            "name": "id",
+            "name": "url",
             "required": true,
-            "in": "path",
+            "in": "query",
+            "description": "URL to fetch floorplans data from",
             "schema": {
-              "type": "number"
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Floorplans data retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "endpoint": {
+                      "type": "string",
+                      "example": "floorplans"
+                    },
+                    "url": {
+                      "type": "string",
+                      "example": "https://example.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope"
           }
         },
         "security": [
@@ -2232,90 +412,22 @@
             "bearer": []
           }
         ],
-        "summary": "Get emirate by ID",
+        "summary": "Get floorplans data",
         "tags": [
-          "GenieMap"
+          "noxum"
         ]
       }
     },
-    "/apps/geniemap/districts": {
+    "/apps/noxum/owners": {
       "get": {
-        "operationId": "GeniemapController_getDistricts",
+        "description": "Retrieves owners data from the specified URL",
+        "operationId": "NoxumController_getOwners",
         "parameters": [
           {
-            "name": "q",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "costLevel",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "emirateId",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "offset",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get districts",
-        "tags": [
-          "GenieMap"
-        ],
-        "description": "Get a list of districts with optional filtering by name, cost level, and emirate.\nDistricts represent specific areas within emirates, each with its own cost level indicator.\n"
-      }
-    },
-    "/apps/geniemap/districts/{id}": {
-      "get": {
-        "operationId": "GeniemapController_getDistrictById",
-        "parameters": [
-          {
-            "name": "id",
+            "name": "url",
             "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "lang",
-            "required": false,
             "in": "query",
+            "description": "URL to fetch owners data from",
             "schema": {
               "type": "string"
             }
@@ -2323,7 +435,34 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Owners data retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "endpoint": {
+                      "type": "string",
+                      "example": "owners"
+                    },
+                    "url": {
+                      "type": "string",
+                      "example": "https://example.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope"
           }
         },
         "security": [
@@ -2331,205 +470,57 @@
             "bearer": []
           }
         ],
-        "summary": "Get district by ID",
+        "summary": "Get owners data",
         "tags": [
-          "GenieMap"
+          "noxum"
         ]
       }
     },
-    "/apps/geniemap/projects": {
+    "/apps/noxum/liveowners": {
       "get": {
-        "operationId": "GeniemapController_getProjects",
+        "description": "Retrieves live owners data from the specified URL",
+        "operationId": "NoxumController_getLiveOwners",
         "parameters": [
           {
-            "name": "maxPricePerSqFt",
-            "required": false,
+            "name": "url",
+            "required": true,
             "in": "query",
+            "description": "URL to fetch live owners data from",
             "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "minPricePerSqFt",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "unitLayoutId",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "unitTypeId",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "maxArea",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "minArea",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "maxPrice",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "minPrice",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "offset",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "startOfSalesTo",
-            "required": false,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "startOfSalesFrom",
-            "required": false,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "eoiTo",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "eoiFrom",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "status",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "enum": [
-                "available",
-                "sold_out",
-                "launch"
-              ],
               "type": "string"
             }
-          },
-          {
-            "name": "handoverTo",
-            "required": false,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "handoverFrom",
-            "required": false,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "serviceChargeTo",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "serviceChargeFrom",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "sellerId",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "developerId",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "bbox",
-            "required": false,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "districtId",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "q",
-            "required": false,
-            "in": "query",
-            "schema": {}
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Live owners data retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "endpoint": {
+                      "type": "string",
+                      "example": "liveowners"
+                    },
+                    "url": {
+                      "type": "string",
+                      "example": "https://example.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope"
           }
         },
         "security": [
@@ -2537,112 +528,22 @@
             "bearer": []
           }
         ],
-        "summary": "Get projects",
+        "summary": "Get live owners data",
         "tags": [
-          "GenieMap"
-        ],
-        "description": "Retrieve a list of real estate projects with comprehensive filtering options.\nThis endpoint allows filtering by various criteria including location, price range, area, \ndeveloper, status, and more to help find specific properties in the UAE real estate market.\n"
-      }
-    },
-    "/apps/geniemap/projects/{id}": {
-      "get": {
-        "operationId": "GeniemapController_getProjectById",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get project by ID",
-        "tags": [
-          "GenieMap"
+          "noxum"
         ]
       }
     },
-    "/apps/geniemap/developers": {
+    "/apps/noxum/combined/all": {
       "get": {
-        "operationId": "GeniemapController_getDevelopers",
+        "description": "Retrieves properties, floorplans, and owners data from the specified URL",
+        "operationId": "NoxumController_getCombinedAll",
         "parameters": [
           {
-            "name": "q",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "districtId",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "offset",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get developers",
-        "tags": [
-          "GenieMap"
-        ],
-        "description": "Get a list of real estate developers with optional filtering by name and district.\nThis endpoint provides information about developers operating in the UAE real estate market.\n"
-      }
-    },
-    "/apps/geniemap/developers/{id}": {
-      "get": {
-        "operationId": "GeniemapController_getDeveloperById",
-        "parameters": [
-          {
-            "name": "id",
+            "name": "url",
             "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "lang",
-            "required": false,
             "in": "query",
+            "description": "URL to fetch combined data from",
             "schema": {
               "type": "string"
             }
@@ -2650,7 +551,43 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Combined data retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "success": {
+                            "type": "boolean"
+                          },
+                          "endpoint": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope"
           }
         },
         "security": [
@@ -2658,220 +595,66 @@
             "bearer": []
           }
         ],
-        "summary": "Get developer by ID",
+        "summary": "Get combined data (properties, floorplans, owners)",
         "tags": [
-          "GenieMap"
+          "noxum"
         ]
       }
     },
-    "/apps/geniemap/amenities": {
+    "/apps/noxum/combined/properties-owners": {
       "get": {
-        "operationId": "GeniemapController_getAmenities",
+        "description": "Retrieves properties and owners data from the specified URL",
+        "operationId": "NoxumController_getCombinedPropertiesOwners",
         "parameters": [
           {
-            "name": "lang",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get amenities",
-        "tags": [
-          "GenieMap"
-        ],
-        "description": "Get a list of all available amenities that can be present in real estate projects.\nAmenities represent various facilities and features available in properties.\n"
-      }
-    },
-    "/apps/geniemap/unit-types": {
-      "get": {
-        "operationId": "GeniemapController_getUnitTypes",
-        "parameters": [
-          {
-            "name": "lang",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get unit types",
-        "tags": [
-          "GenieMap"
-        ],
-        "description": "Get a list of all available unit types (e.g., Apartment, Villa, Townhouse).\nUnit types categorize properties by their general structure and style.\n"
-      }
-    },
-    "/apps/geniemap/finishes": {
-      "get": {
-        "operationId": "GeniemapController_getFinishes",
-        "parameters": [
-          {
-            "name": "lang",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get finishes",
-        "tags": [
-          "GenieMap"
-        ],
-        "description": "Get a list of all available finishing types for properties.\nFinishes describe the level and quality of interior completion in properties.\n"
-      }
-    },
-    "/apps/geniemap/unit-layouts": {
-      "get": {
-        "operationId": "GeniemapController_getUnitLayouts",
-        "parameters": [
-          {
-            "name": "lang",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get unit layouts",
-        "tags": [
-          "GenieMap"
-        ],
-        "description": "Get a list of all available unit layouts (e.g., Studio, 1 BR, 2 BR).\nUnit layouts describe the internal configuration and number of rooms in properties.\n"
-      }
-    },
-    "/apps/geniemap/projects/{projectId}/units": {
-      "get": {
-        "operationId": "GeniemapController_getProjectUnits",
-        "parameters": [
-          {
-            "name": "projectId",
+            "name": "url",
             "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "offset",
-            "required": false,
             "in": "query",
+            "description": "URL to fetch combined data from",
             "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "typeOfSale",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "enum": [
-                "offPlan",
-                "resale"
-              ],
               "type": "string"
             }
-          },
-          {
-            "name": "unitTypeIds",
-            "required": false,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "layoutIds",
-            "required": false,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "maxArea",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "minArea",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "maxPrice",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "minPrice",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Combined properties and owners data retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "success": {
+                            "type": "boolean"
+                          },
+                          "endpoint": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope"
           }
         },
         "security": [
@@ -2879,36 +662,35 @@
             "bearer": []
           }
         ],
-        "summary": "Get project units",
+        "summary": "Get combined properties and owners data",
         "tags": [
-          "GenieMap"
-        ],
-        "description": "Get a list of available units within a specific project with comprehensive filtering options.\nThis endpoint provides detailed information about individual units, including pricing, area, and availability.\n"
+          "noxum"
+        ]
       }
     },
-    "/apps/geniemap/users": {
-      "get": {
-        "operationId": "GeniemapController_getUsers",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get users",
-        "tags": [
-          "GenieMap"
-        ],
-        "description": "Retrieves a list of users in the company.\nThis endpoint provides information about all users associated with the organization.\n"
-      },
+    "/apps/dubaiunitfinder/auth/register": {
       "post": {
-        "operationId": "GeniemapController_createUser",
-        "parameters": [],
+        "description": "Register a new user for Dubai Unit Finder platform",
+        "operationId": "DubaiunitfinderController_register",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2916,25 +698,35 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "name",
+                  "firstName",
+                  "lastName",
                   "email",
                   "password"
                 ],
                 "properties": {
-                  "name": {
-                    "type": "string"
+                  "firstName": {
+                    "type": "string",
+                    "example": "John"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "example": "Doe"
                   },
                   "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "john.doe@example.com"
                   },
                   "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "SecurePass123!"
                   },
-                  "phone": {
-                    "type": "string"
+                  "company": {
+                    "type": "string",
+                    "example": "Real Estate Co."
                   },
-                  "avatarId": {
-                    "type": "string"
+                  "referredBy": {
+                    "type": "string",
+                    "example": "ABC123XYZ456"
                   }
                 }
               }
@@ -2943,7 +735,37 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User registered successfully"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "example": "uuid-here"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User already exists or invalid data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope"
           }
         },
         "security": [
@@ -2951,23 +773,1014 @@
             "bearer": []
           }
         ],
-        "summary": "Create user",
+        "summary": "Register new user",
         "tags": [
-          "GenieMap"
-        ],
-        "description": "Create a new user within the company.\nThis endpoint allows creating new user accounts with specified roles and permissions.\n"
+          "dubaiunitfinder"
+        ]
       }
     },
-    "/apps/geniemap/users/{id}": {
-      "put": {
-        "operationId": "GeniemapController_updateUser",
+    "/apps/dubaiunitfinder/auth/signin": {
+      "post": {
+        "description": "Sign in an existing user to Dubai Unit Finder platform",
+        "operationId": "DubaiunitfinderController_signIn",
         "parameters": [
           {
-            "name": "id",
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "john.doe@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "SecurePass123!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sign in successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Sign in successful"
+                    },
+                    "user": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Sign in user",
+        "tags": [
+          "dubaiunitfinder"
+        ]
+      }
+    },
+    "/apps/dubaiunitfinder/subscription/{userId}": {
+      "get": {
+        "description": "Retrieve all subscriptions for a specific user",
+        "operationId": "DubaiunitfinderController_getUserSubscriptions",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
             "required": true,
             "in": "path",
             "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscriptions retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "subscriptions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get user subscriptions",
+        "tags": [
+          "dubaiunitfinder"
+        ]
+      }
+    },
+    "/apps/dubaiunitfinder/subscription": {
+      "post": {
+        "description": "Create a new subscription for a user",
+        "operationId": "DubaiunitfinderController_createSubscription",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "userId",
+                  "packageName",
+                  "requestsInPackage",
+                  "expiryDate"
+                ],
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "example": "uuid-here"
+                  },
+                  "packageName": {
+                    "type": "string",
+                    "example": "premium"
+                  },
+                  "requestsInPackage": {
+                    "type": "number",
+                    "example": 1000
+                  },
+                  "expiryDate": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2024-12-31"
+                  },
+                  "price": {
+                    "type": "number",
+                    "example": 99.99
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Subscription created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Subscription created successfully"
+                    },
+                    "subscriptionId": {
+                      "type": "string",
+                      "example": "uuid-here"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid subscription data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create new subscription",
+        "tags": [
+          "dubaiunitfinder"
+        ]
+      }
+    },
+    "/apps/dubaiunitfinder/history/{userId}": {
+      "get": {
+        "description": "Retrieve search history for a specific user",
+        "operationId": "DubaiunitfinderController_getUserHistory",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of records to return",
+            "schema": {
+              "example": 50,
               "type": "number"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "history": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get user history",
+        "tags": [
+          "dubaiunitfinder"
+        ]
+      }
+    },
+    "/apps/dubaiunitfinder/history": {
+      "post": {
+        "description": "Add a new search history entry",
+        "operationId": "DubaiunitfinderController_addHistoryEntry",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "userId",
+                  "requestUrl"
+                ],
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "example": "uuid-here"
+                  },
+                  "requestUrl": {
+                    "type": "string",
+                    "example": "https://api.example.com/search"
+                  },
+                  "preview": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Image data as base64 string"
+                  },
+                  "source": {
+                    "type": "string",
+                    "example": "bayut"
+                  },
+                  "location": {
+                    "type": "object"
+                  },
+                  "coordinates": {
+                    "type": "object"
+                  },
+                  "rera": {
+                    "type": "object"
+                  },
+                  "property": {
+                    "type": "object"
+                  },
+                  "company": {
+                    "type": "string",
+                    "example": "Agency LLC"
+                  },
+                  "buildingName": {
+                    "type": "string",
+                    "example": "Dubai Marina Tower"
+                  },
+                  "unitNumber": {
+                    "type": "string",
+                    "example": "1201"
+                  },
+                  "permitNumber": {
+                    "type": "string",
+                    "example": "PER123456"
+                  },
+                  "responseData": {
+                    "type": "object"
+                  },
+                  "requestStatus": {
+                    "type": "string",
+                    "example": "success"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "History entry added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "History entry added successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid history data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Add history entry",
+        "tags": [
+          "dubaiunitfinder"
+        ]
+      }
+    },
+    "/apps/dubaiunitfinder/admin/users": {
+      "get": {
+        "description": "Retrieve all users for admin management",
+        "operationId": "DubaiunitfinderController_getAllUsers",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Users per page",
+            "schema": {
+              "example": 50,
+              "type": "number"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 150
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope or not admin"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all users (Admin)",
+        "tags": [
+          "dubaiunitfinder"
+        ]
+      }
+    },
+    "/apps/dubaiunitfinder/admin/users/{userId}": {
+      "get": {
+        "description": "Retrieve detailed information about a specific user",
+        "operationId": "DubaiunitfinderController_getUserDetails",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "user": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope or not admin"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get user details (Admin)",
+        "tags": [
+          "dubaiunitfinder"
+        ]
+      }
+    },
+    "/apps/dubaiunitfinder/admin/subscriptions": {
+      "get": {
+        "description": "Retrieve all subscriptions for all users",
+        "operationId": "DubaiunitfinderController_getAllSubscriptions",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Subscriptions per page",
+            "schema": {
+              "example": 50,
+              "type": "number"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscriptions retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "subscriptions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 150
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope or not admin"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all subscriptions (Admin)",
+        "tags": [
+          "dubaiunitfinder"
+        ]
+      }
+    },
+    "/apps/dubaiunitfinder/admin/subscriptions/{userId}": {
+      "get": {
+        "description": "Retrieve all subscriptions for a specific user (admin endpoint)",
+        "operationId": "DubaiunitfinderController_getUserSubscriptionsAdmin",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User subscriptions retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "subscriptions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope or not admin"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get user subscriptions (Admin)",
+        "tags": [
+          "dubaiunitfinder"
+        ]
+      }
+    },
+    "/apps/dubaiunitfinder/admin/history": {
+      "get": {
+        "description": "Retrieve all history for all users",
+        "operationId": "DubaiunitfinderController_getAllHistory",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "History entries per page",
+            "schema": {
+              "example": 50,
+              "type": "number"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "history": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope or not admin"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all history (Admin)",
+        "tags": [
+          "dubaiunitfinder"
+        ]
+      }
+    },
+    "/apps/dubaiunitfinder/admin/history/{userId}": {
+      "get": {
+        "description": "Retrieve all history for a specific user (admin endpoint)",
+        "operationId": "DubaiunitfinderController_getUserHistoryAdmin",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of records to return",
+            "schema": {
+              "example": 50,
+              "type": "number"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User history retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "history": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Invalid scope or not admin"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get user history (Admin)",
+        "tags": [
+          "dubaiunitfinder"
+        ]
+      }
+    },
+    "/apps/dubaiunitfinder/admin/users/{userId}/status": {
+      "post": {
+        "description": "Update user admin or active status",
+        "operationId": "DubaiunitfinderController_updateUserStatus",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -2978,17 +1791,13 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
-                    "type": "string"
+                  "isAdmin": {
+                    "type": "boolean",
+                    "example": true
                   },
-                  "password": {
-                    "type": "string"
-                  },
-                  "phone": {
-                    "type": "string"
-                  },
-                  "avatarId": {
-                    "type": "string"
+                  "isActive": {
+                    "type": "boolean",
+                    "example": false
                   }
                 }
               }
@@ -2997,215 +1806,36 @@
         },
         "responses": {
           "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Update user",
-        "tags": [
-          "GenieMap"
-        ],
-        "description": "Update an existing user's information.\nThis endpoint allows modifying user details such as name, password, and contact information.\n"
-      },
-      "delete": {
-        "operationId": "GeniemapController_deleteUser",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Delete user",
-        "tags": [
-          "GenieMap"
-        ],
-        "description": "Delete a user from the company.\nThis endpoint permanently removes a user account and their associated data.\n"
-      }
-    },
-    "/apps/geniemap/images/upload": {
-      "post": {
-        "operationId": "GeniemapController_uploadImage",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Upload image",
-        "tags": [
-          "GenieMap"
-        ],
-        "description": "Upload an image file to the server.\nThis endpoint accepts image files and returns a unique identifier and URL for accessing the uploaded file.\nAllowed formats are PNG and JPEG, with a maximum file size of 5MB.\n"
-      }
-    },
-    "/apps/portal/v1/bitly/project": {
-      "post": {
-        "operationId": "BitlyController_createProject",
-        "parameters": [
-          {
-            "name": "leadType",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "propertyType",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "integrately",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "projectName",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "projectLink",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "campaignName",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "subCommunity",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "community",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "city",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "project",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "developer",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Project link created successfully"
-          },
-          "400": {
-            "description": "Bad Request - At least one parameter must be provided"
-          },
-          "401": {
-            "description": "Access token is missing or invalid"
-          },
-          "403": {
-            "description": "Insufficient scope"
-          },
-          "500": {
-            "description": "Failed to process project request"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Create a project link using query parameters.",
-        "tags": [
-          "portal/v1/bitly"
-        ]
-      },
-      "get": {
-        "operationId": "BitlyController_getAllStoredProjects",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "A list of all projects",
+            "description": "User status updated successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User status updated successfully"
+                    }
                   }
                 }
               }
             }
           },
+          "400": {
+            "description": "Invalid update data"
+          },
           "401": {
-            "description": "Access token is missing or invalid"
+            "description": "Unauthorized"
           },
           "403": {
-            "description": "Insufficient scope"
+            "description": "Forbidden - Invalid scope or not admin"
           },
-          "500": {
-            "description": "Failed to retrieve projects"
+          "404": {
+            "description": "User not found"
           }
         },
         "security": [
@@ -3213,42 +1843,113 @@
             "bearer": []
           }
         ],
-        "summary": "Retrieve all stored projects with their details and Bitly links",
+        "summary": "Update user status (Admin)",
         "tags": [
-          "portal/v1/bitly"
+          "dubaiunitfinder"
         ]
       }
     },
-    "/apps/portal/v1/bitly/project.json": {
+    "/apps/dubaiunitfinder/admin/users/{userId}/subscription": {
       "post": {
-        "operationId": "BitlyController_createProjectJson",
-        "parameters": [],
+        "description": "Manually add a subscription to a specific user",
+        "operationId": "DubaiunitfinderController_addSubscriptionToUser",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "API key for additional security (will be implemented later)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
-          "description": "All parameters are optional. Provide at least one.",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AllProjectDataDto"
+                "type": "object",
+                "required": [
+                  "packageName",
+                  "requestsInPackage",
+                  "expiryDate"
+                ],
+                "properties": {
+                  "packageName": {
+                    "type": "string",
+                    "example": "premium"
+                  },
+                  "requestsInPackage": {
+                    "type": "number",
+                    "example": 1000
+                  },
+                  "expiryDate": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2024-12-31"
+                  },
+                  "price": {
+                    "type": "number",
+                    "example": 99.99
+                  }
+                }
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Project link created successfully"
+            "description": "Subscription added to user successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Subscription added to user successfully"
+                    },
+                    "subscriptionId": {
+                      "type": "string",
+                      "example": "uuid-here"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request - At least one parameter must be provided"
+            "description": "Invalid subscription data"
           },
           "401": {
-            "description": "Access token is missing or invalid"
+            "description": "Unauthorized"
           },
           "403": {
-            "description": "Insufficient scope"
+            "description": "Forbidden - Invalid scope or not admin"
           },
-          "500": {
-            "description": "Failed to process project request"
+          "404": {
+            "description": "User not found"
           }
         },
         "security": [
@@ -3256,404 +1957,9 @@
             "bearer": []
           }
         ],
-        "summary": "Create a project link using JSON payload.",
+        "summary": "Add subscription to user (Admin)",
         "tags": [
-          "portal/v1/bitly"
-        ]
-      }
-    },
-    "/apps/portal/v1/bitly/campaign": {
-      "post": {
-        "operationId": "BitlyController_createCampaign",
-        "parameters": [
-          {
-            "name": "projectLink",
-            "required": true,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "propertyType",
-            "required": true,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "area",
-            "required": true,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "integrately",
-            "required": true,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "campaignName",
-            "required": true,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "developerName",
-            "required": true,
-            "in": "query",
-            "schema": {}
-          },
-          {
-            "name": "projectName",
-            "required": true,
-            "in": "query",
-            "schema": {}
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Campaign created successfully"
-          },
-          "401": {
-            "description": "Access token is missing or invalid"
-          },
-          "403": {
-            "description": "Insufficient scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Create a campaign link using query parameters",
-        "tags": [
-          "portal/v1/bitly"
-        ]
-      }
-    },
-    "/apps/portal/v1/bitly/campaign.json": {
-      "post": {
-        "operationId": "BitlyController_createCampaignJson",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CampaignJsonDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Campaign created successfully"
-          },
-          "401": {
-            "description": "Access token is missing or invalid"
-          },
-          "403": {
-            "description": "Insufficient scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Create a campaign link using JSON payload",
-        "tags": [
-          "portal/v1/bitly"
-        ]
-      }
-    },
-    "/apps/portal/v1/pdf": {
-      "post": {
-        "operationId": "PdfController_generatePdf",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "description": "Data for PDF generation",
-          "content": {
-            "application/json": {
-              "schema": {
-                "example": {
-                  "list": [
-                    {
-                      "agent": {
-                        "name": "John Doe",
-                        "email": "john.doe@example.com",
-                        "phone": "+123456789",
-                        "photo": "url_to_photo"
-                      },
-                      "title_en": "Luxury Villa",
-                      "reference_number": "REF123",
-                      "purpose": "For Sale",
-                      "property_type": "Villa",
-                      "price": 5000000,
-                      "city": "Dubai",
-                      "community": "Palm Jumeirah",
-                      "sub_community": "Fronds",
-                      "size": 5000,
-                      "bathroom": 5,
-                      "bedroom": 4,
-                      "parking": 2,
-                      "photo": [
-                        "url_to_photo1",
-                        "url_to_photo2"
-                      ],
-                      "description_en": "A beautiful villa...",
-                      "permit_number": "12345"
-                    }
-                  ]
-                },
-                "$ref": "#/components/schemas/"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "PDF generated successfully"
-          },
-          "401": {
-            "description": "Access token is missing or invalid"
-          },
-          "403": {
-            "description": "Insufficient scope"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Generate a PDF",
-        "tags": [
-          "portal"
-        ]
-      }
-    },
-    "/apps/dynamics/employee": {
-      "get": {
-        "operationId": "DynamicsController_getEmployees",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Returns all employees"
-          }
-        },
-        "summary": "Get all employees",
-        "tags": [
-          "Dynamics"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "dynamics:employee:read"
-            ]
-          }
-        ]
-      },
-      "post": {
-        "operationId": "DynamicsController_createEmployee",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EmployeeDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Employee created successfully"
-          }
-        },
-        "summary": "Create new employee",
-        "tags": [
-          "Dynamics"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "dynamics:employee:create"
-            ]
-          }
-        ]
-      }
-    },
-    "/apps/dynamics/employee/{no}": {
-      "get": {
-        "operationId": "DynamicsController_getEmployee",
-        "parameters": [
-          {
-            "name": "no",
-            "required": true,
-            "in": "path",
-            "description": "Employee No",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns employee data"
-          }
-        },
-        "summary": "Get employee by No",
-        "tags": [
-          "Dynamics"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "dynamics:employee:read"
-            ]
-          }
-        ]
-      },
-      "patch": {
-        "operationId": "DynamicsController_updateEmployee",
-        "parameters": [
-          {
-            "name": "no",
-            "required": true,
-            "in": "path",
-            "description": "Employee No",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EmployeeDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Employee updated successfully"
-          }
-        },
-        "summary": "Update employee",
-        "tags": [
-          "Dynamics"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "dynamics:employee:update"
-            ]
-          }
-        ]
-      },
-      "delete": {
-        "operationId": "DynamicsController_deleteEmployee",
-        "parameters": [
-          {
-            "name": "no",
-            "required": true,
-            "in": "path",
-            "description": "Employee No",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Employee deleted successfully"
-          }
-        },
-        "summary": "Delete employee",
-        "tags": [
-          "Dynamics"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "dynamics:employee:delete"
-            ]
-          }
-        ]
-      }
-    },
-    "/apps/dynamics/employee/update": {
-      "post": {
-        "operationId": "DynamicsController_updateEmployeesFromSources",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Update process started"
-          }
-        },
-        "summary": "Update all employees from external sources like JumpCloud and Bitrix",
-        "tags": [
-          "Dynamics"
-        ]
-      }
-    },
-    "/apps/dynamics/employee/supdate": {
-      "delete": {
-        "operationId": "DynamicsController_deleteAllEmployees",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Deletion process started"
-          }
-        },
-        "summary": "Deletes all employees from dynamics and resyncs the local database",
-        "tags": [
-          "Dynamics"
-        ]
-      }
-    },
-    "/apps/eventbrite/authenticate": {
-      "get": {
-        "operationId": "EventbriteController_authenticate",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "summary": "Authenticate with Eventbrite API",
-        "tags": [
-          "Eventbrite"
-        ]
-      }
-    },
-    "/apps/eventbrite/automation/leads": {
-      "post": {
-        "operationId": "EventbriteController_automationLeads",
-        "parameters": [
-          {
-            "name": "changed_since",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "summary": "Fetch event orders and process them as leads",
-        "tags": [
-          "Eventbrite"
+          "dubaiunitfinder"
         ]
       }
     }
@@ -3662,8 +1968,7 @@
     "title": "API Gateway",
     "description": "API Gateway with OAuth2.0 Client Credentials Flow",
     "version": "2.0.0",
-    "contact": {},
-    "x-postman-oauth2-client-credentials-in-body": true
+    "contact": {}
   },
   "tags": [
     {
@@ -3683,17 +1988,21 @@
       "description": "Health check endpoints"
     },
     {
-      "name": "test",
-      "description": "Test endpoints for API validation"
+      "name": "noxum",
+      "description": "Noxum data endpoints for properties, floorplans, and owners"
+    },
+    {
+      "name": "dubaiunitfinder",
+      "description": "Dubai Unit Finder platform endpoints for user management, subscriptions, and history"
     }
   ],
   "servers": [
     {
-      "url": "https://api.provident.ae/v2",
+      "url": "http://localhost:9000/v2",
       "description": "Production server"
     },
     {
-      "url": "https://api.noxum.dev/v2",
+      "url": "http://localhost:9000/v2",
       "description": "Development server"
     },
     {
@@ -3707,61 +2016,6 @@
         "scheme": "bearer",
         "bearerFormat": "JWT",
         "type": "http"
-      },
-      "oauth2": {
-        "type": "oauth2",
-        "description": "OAuth2 Client Credentials Flow - client credentials are sent in the request body, not as Basic Auth header",
-        "flows": {
-          "clientCredentials": {
-            "tokenUrl": "https://api.provident.ae/v2/oauth2/token",
-            "scopes": {
-              "portal:profile:read": "Read access to Portal profile",
-              "portal:dashboard:read": "Read access to Portal dashboard",
-              "portal:data:pf:read": "Read access to PF Locations data",
-              "admin:clients:create": "Create OAuth clients",
-              "admin:clients:read": "Read OAuth clients",
-              "admin:clients:update": "Update OAuth clients",
-              "admin:clients:delete": "Delete OAuth clients",
-              "oauth2:introspect": "Introspect OAuth tokens",
-              "oauth2:revoke": "Revoke OAuth tokens",
-              "dynamics:employee:read": "Read access to Dynamics employee data",
-              "dynamics:employee:create": "Create Dynamics employees",
-              "dynamics:employee:update": "Update Dynamics employees",
-              "dynamics:employee:delete": "Delete Dynamics employees",
-              "jumpcloud:users:read": "Read access to JumpCloud users",
-              "jumpcloud:groups:read": "Read access to JumpCloud groups",
-              "crm:property:read": "Read access to CRM property data",
-              "crm:user:read": "Read access to CRM user data",
-              "crm:lead:write": "Write access to create CRM leads",
-              "crm:lead:read": "Read access to CRM lead data",
-              "crm:item:write": "Write access to create CRM items",
-              "crm:item:read": "Read access to CRM items",
-              "geniemap:emirates:read": "Read emirates data",
-              "geniemap:districts:read": "Read districts data",
-              "geniemap:projects:read": "Read projects data",
-              "geniemap:developers:read": "Read developers data",
-              "geniemap:amenities:read": "Read amenities data",
-              "geniemap:unit-types:read": "Read unit types data",
-              "geniemap:finishes:read": "Read finishes data",
-              "geniemap:unit-layouts:read": "Read unit layouts data",
-              "geniemap:units:read": "Read units data",
-              "geniemap:users:read": "Read users data",
-              "geniemap:users:create": "Create users",
-              "geniemap:users:update": "Update users",
-              "geniemap:users:delete": "Delete users",
-              "geniemap:images:create": "Upload images",
-              "jumpcloud:users:write": "Write access to JumpCloud users",
-              "bitrix:process:terminate": "Initiate user termination process via Bitrix endpoints",
-              "v1:bitly:create": "Create shortened URLs and campaign links using Bitly",
-              "v1:bitly:read": "Read access to Bitly link and project data",
-              "portal:data:user:read": "Read access to Portal user data from Telegram DB"
-            }
-          }
-        },
-        "x-client-authentication": "body",
-        "x-tokenClientAuthentication": "body",
-        "x-token-client-authentication": "body",
-        "x-postman-client-auth": "body"
       }
     },
     "schemas": {
@@ -3774,7 +2028,7 @@
           "redirectUris": {
             "description": "List of allowed redirect URIs",
             "default": [
-              "https://api.provident.ae/auth/callback"
+              "http://localhost:9000/auth/callback"
             ],
             "type": "array",
             "items": {
@@ -4027,1598 +2281,6 @@
         "required": [
           "token"
         ]
-      },
-      "ScheduledUserstateResultDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The ID of the scheduled state change request."
-          },
-          "userId": {
-            "type": "string",
-            "description": "The ID of the System User this entry is specific to."
-          },
-          "state": {
-            "type": "string",
-            "description": "The state to set for the user."
-          },
-          "startDate": {
-            "type": "string",
-            "description": "The timestamp for when the state change will occur.",
-            "format": "date-time"
-          },
-          "activationEmailOverride": {
-            "type": "string",
-            "description": "An email address that overrides the system user's primary email address for activation email delivery."
-          },
-          "sendActivationEmails": {
-            "type": "boolean",
-            "description": "Determines if activation emails are sent."
-          }
-        },
-        "required": [
-          "id",
-          "userId",
-          "state",
-          "startDate"
-        ]
-      },
-      "BulkScheduledStatechangeCreateDto": {
-        "type": "object",
-        "properties": {
-          "user_ids": {
-            "description": "An array of system user IDs.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "state": {
-            "type": "string",
-            "description": "The state to set for the users.",
-            "enum": [
-              "ACTIVATED",
-              "SUSPENDED"
-            ]
-          },
-          "start_date": {
-            "type": "string",
-            "description": "The timestamp for when the state change will occur.",
-            "format": "date-time"
-          },
-          "activation_email_override": {
-            "type": "string",
-            "description": "An email address that overrides the system user's primary email address for activation email delivery."
-          },
-          "send_activation_emails": {
-            "type": "boolean",
-            "description": "Determines if activation emails are sent."
-          }
-        },
-        "required": [
-          "user_ids",
-          "state",
-          "start_date"
-        ]
-      },
-      "AllProjectDataDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "CampaignJsonDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "EmployeeDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "TelegramLocation": {
-        "type": "object",
-        "description": "A nested object representing a location. Each key is a location name, and the value is another TelegramLocation object.",
-        "additionalProperties": {
-          "$ref": "#/components/schemas/TelegramLocation"
-        }
-      },
-      "OAuth2Response": {
-        "type": "object",
-        "properties": {
-          "access_token": {
-            "type": "string"
-          },
-          "token_type": {
-            "type": "string",
-            "enum": [
-              "Bearer"
-            ]
-          },
-          "expires_in": {
-            "type": "integer",
-            "description": "Token expiration in seconds"
-          },
-          "scope": {
-            "type": "string"
-          }
-        }
-      },
-      "OAuth2Error": {
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "string",
-            "enum": [
-              "invalid_request",
-              "invalid_client",
-              "invalid_grant",
-              "invalid_scope",
-              "unauthorized_client"
-            ]
-          },
-          "error_description": {
-            "type": "string"
-          },
-          "statusCode": {
-            "type": "integer"
-          }
-        }
-      },
-      "PortalResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "object"
-          },
-          "message": {
-            "type": "string"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endpoint": {
-            "type": "string"
-          },
-          "scopes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "CreateClientRequest": {
-        "type": "object",
-        "required": [
-          "name",
-          "allowedScopes"
-        ],
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "redirectUris": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uri"
-            },
-            "default": [
-              "https://api.provident.ae/auth/callback"
-            ],
-            "description": "List of allowed redirect URIs. Defaults to ['https://api.provident.ae/auth/callback'] if not provided."
-          },
-          "allowedScopes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "tokenLifetimeSeconds": {
-            "type": "integer",
-            "enum": [
-              3600,
-              10800,
-              21600,
-              43200,
-              86400
-            ],
-            "default": 3600,
-            "description": "Token lifetime in seconds. Values represent 1h, 3h, 6h, 12h, and 24h respectively."
-          },
-          "rateLimitCount": {
-            "type": "integer",
-            "minimum": 0,
-            "default": 200,
-            "description": "Maximum requests allowed per window. Set to 0 for unlimited. Defaults to 200."
-          },
-          "rateLimitWindowSeconds": {
-            "type": "integer",
-            "minimum": 1,
-            "default": 43200,
-            "description": "Rate limit window size in seconds. Defaults to 43200 (12 hours)."
-          },
-          "ipRestriction": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enable IP restriction for this client. Defaults to true."
-          },
-          "allowedIps": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "default": [
-              "<ip>",
-              "<ip>"
-            ],
-            "description": "List of allowed IPs/CIDRs if restriction is enabled. Defaults to all IPs.",
-            "example": [
-              "192.168.1.100",
-              "10.0.0.0/24",
-              "2001:db8::1"
-            ]
-          }
-        }
-      },
-      "UpdateClientRequest": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "redirectUris": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uri"
-            },
-            "default": [
-              "https://api.provident.ae/auth/callback"
-            ],
-            "description": "List of allowed redirect URIs. Defaults to ['https://api.provident.ae/auth/callback'] if not provided during client creation."
-          },
-          "allowedScopes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "tokenLifetimeSeconds": {
-            "type": "integer",
-            "enum": [
-              3600,
-              10800,
-              21600,
-              43200,
-              86400
-            ],
-            "default": 3600,
-            "description": "Token lifetime in seconds. Values represent 1h, 3h, 6h, 12h, and 24h respectively."
-          },
-          "rateLimitCount": {
-            "type": "integer",
-            "minimum": 0,
-            "default": 200,
-            "description": "Maximum requests allowed per window. Set to 0 for unlimited. Defaults to 200."
-          },
-          "rateLimitWindowSeconds": {
-            "type": "integer",
-            "minimum": 1,
-            "default": 43200,
-            "description": "Rate limit window size in seconds. Defaults to 43200 (12 hours)."
-          },
-          "ipRestriction": {
-            "type": "boolean",
-            "description": "Enable IP restriction for this client."
-          },
-          "allowedIps": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "List of allowed IPs/CIDRs if restriction is enabled."
-          }
-        }
-      },
-      "ClientResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "clientId": {
-            "type": "string"
-          },
-          "clientSecret": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "redirectUris": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "allowedScopes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "tokenLifetimeSeconds": {
-            "type": "integer",
-            "description": "Token lifetime in seconds"
-          },
-          "rateLimitCount": {
-            "type": "integer",
-            "description": "Maximum requests allowed per window. 0 means unlimited."
-          },
-          "rateLimitWindowSeconds": {
-            "type": "integer"
-          },
-          "ip_restriction": {
-            "type": "boolean",
-            "description": "Whether IP restriction is enabled"
-          },
-          "allowedIps": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "List of allowed IPs/CIDRs"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "creatorPrincipalId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID (User UUID or Client ID) of the principal who created this client"
-          }
-        }
-      },
-      "TokenIntrospectionRequest": {
-        "type": "object",
-        "required": [
-          "token"
-        ],
-        "properties": {
-          "token": {
-            "type": "string",
-            "description": "The token to introspect"
-          }
-        }
-      },
-      "TokenIntrospectionResponse": {
-        "type": "object",
-        "properties": {
-          "active": {
-            "type": "boolean",
-            "description": "Boolean indicating whether the token is active"
-          },
-          "client_id": {
-            "type": "string",
-            "description": "Client ID associated with the token"
-          },
-          "username": {
-            "type": "string",
-            "description": "Username of the associated user, if any"
-          },
-          "scope": {
-            "type": "string",
-            "description": "Space-separated list of scopes"
-          },
-          "exp": {
-            "type": "integer",
-            "description": "Token expiration timestamp in seconds since epoch"
-          },
-          "iat": {
-            "type": "integer",
-            "description": "Token issuance timestamp in seconds since epoch"
-          }
-        }
-      },
-      "TokenRevocationRequest": {
-        "type": "object",
-        "required": [
-          "token"
-        ],
-        "properties": {
-          "token": {
-            "type": "string",
-            "description": "The token to revoke"
-          }
-        }
-      },
-      "Employee": {
-        "type": "object",
-        "required": [
-          "No_2",
-          "IS_Agent",
-          "First_Name",
-          "Last_Name",
-          "Email",
-          "Company_Email",
-          "Employee_Unique_ID"
-        ],
-        "properties": {
-          "No_2": {
-            "type": "string"
-          },
-          "IS_Agent": {
-            "type": "boolean"
-          },
-          "First_Name": {
-            "type": "string"
-          },
-          "Last_Name": {
-            "type": "string"
-          },
-          "Initials": {
-            "type": "string"
-          },
-          "Job_Title": {
-            "type": "string"
-          },
-          "Search_Name": {
-            "type": "string"
-          },
-          "Phone_No": {
-            "type": "string"
-          },
-          "Mobile_Phone_No": {
-            "type": "string"
-          },
-          "Email": {
-            "type": "string",
-            "format": "email"
-          },
-          "Birth_Date": {
-            "type": "string",
-            "format": "date"
-          },
-          "Gender": {
-            "type": "string"
-          },
-          "Employee_Date": {
-            "type": "string",
-            "format": "date"
-          },
-          "Status": {
-            "type": "string"
-          },
-          "Company_Email": {
-            "type": "string",
-            "format": "email"
-          },
-          "Employee_Unique_ID": {
-            "type": "string"
-          },
-          "Bank": {
-            "type": "string"
-          },
-          "Bank_Branch_No": {
-            "type": "string"
-          },
-          "Bank_Account_No": {
-            "type": "string"
-          },
-          "IBAN": {
-            "type": "string"
-          },
-          "SWIFT_COde": {
-            "type": "string"
-          },
-          "Account_Name": {
-            "type": "string"
-          },
-          "Employee_Type": {
-            "type": "string"
-          },
-          "Attendance_Required": {
-            "type": "boolean"
-          },
-          "Department": {
-            "type": "string"
-          },
-          "Base_Calender": {
-            "type": "string"
-          },
-          "Shift_Calender": {
-            "type": "string"
-          },
-          "Line_Manager": {
-            "type": "string"
-          },
-          "Nationality_1": {
-            "type": "string"
-          },
-          "Marial_Status": {
-            "type": "string"
-          },
-          "Visa_Entity": {
-            "type": "string"
-          },
-          "Is_Bitrix": {
-            "type": "boolean"
-          }
-        }
-      },
-      "EmployeeUpdate": {
-        "type": "object",
-        "properties": {
-          "No_2": {
-            "type": "string"
-          },
-          "IS_Agent": {
-            "type": "boolean"
-          },
-          "First_Name": {
-            "type": "string"
-          },
-          "Last_Name": {
-            "type": "string"
-          },
-          "Initials": {
-            "type": "string"
-          },
-          "Job_Title": {
-            "type": "string"
-          },
-          "Search_Name": {
-            "type": "string"
-          },
-          "Phone_No": {
-            "type": "string"
-          },
-          "Mobile_Phone_No": {
-            "type": "string"
-          },
-          "Email": {
-            "type": "string",
-            "format": "email"
-          },
-          "Birth_Date": {
-            "type": "string",
-            "format": "date"
-          },
-          "Gender": {
-            "type": "string"
-          },
-          "Employee_Date": {
-            "type": "string",
-            "format": "date"
-          },
-          "Status": {
-            "type": "string"
-          },
-          "Company_Email": {
-            "type": "string",
-            "format": "email"
-          },
-          "Employee_Unique_ID": {
-            "type": "string"
-          },
-          "Bank": {
-            "type": "string"
-          },
-          "Bank_Branch_No": {
-            "type": "string"
-          },
-          "Bank_Account_No": {
-            "type": "string"
-          },
-          "IBAN": {
-            "type": "string"
-          },
-          "SWIFT_COde": {
-            "type": "string"
-          },
-          "Account_Name": {
-            "type": "string"
-          },
-          "Employee_Type": {
-            "type": "string"
-          },
-          "Attendance_Required": {
-            "type": "boolean"
-          },
-          "Department": {
-            "type": "string"
-          },
-          "Base_Calender": {
-            "type": "string"
-          },
-          "Shift_Calender": {
-            "type": "string"
-          },
-          "Line_Manager": {
-            "type": "string"
-          },
-          "Nationality_1": {
-            "type": "string"
-          },
-          "Marial_Status": {
-            "type": "string"
-          },
-          "Visa_Entity": {
-            "type": "string"
-          },
-          "Is_Bitrix": {
-            "type": "boolean"
-          }
-        }
-      },
-      "SystemUser": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          },
-          "activated": {
-            "type": "boolean"
-          },
-          "account_locked": {
-            "type": "boolean"
-          }
-        }
-      },
-      "UserGroup": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        }
-      },
-      "GraphObjectWithPaths": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "attributes": {
-            "type": "object",
-            "additionalProperties": true
-          },
-          "paths": {
-            "type": "array",
-            "items": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "attributes": {
-                    "type": "object",
-                    "additionalProperties": true
-                  },
-                  "to": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string"
-                      },
-                      "id": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "Emirate": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 1,
-            "description": "Emirate ID",
-            "minimum": 0
-          },
-          "name": {
-            "type": "string",
-            "maxLength": 255,
-            "example": "Dubai",
-            "description": "Name of Emirate"
-          },
-          "code": {
-            "type": "string",
-            "maxLength": 255,
-            "description": "Unique emirate code"
-          }
-        }
-      },
-      "District": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 1,
-            "description": "District ID",
-            "minimum": 0
-          },
-          "name": {
-            "type": "string",
-            "maxLength": 255,
-            "example": "JVC",
-            "description": "Name of district"
-          },
-          "emirateId": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0,
-            "description": "ID of the emirate this district belongs to"
-          },
-          "costLevel": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 5,
-            "example": 3,
-            "description": "Describes the relative expense level of a district, providing an indication of the area's overall \naffordability. The values range from 1 to 5, where 1 signifies the most affordable districts and 5 \nrepresents the most expensive ones. This metric helps potential buyers or investors understand \nthe cost dynamics of different areas within the UAE, aiding in their decision-making process.\n"
-          },
-          "description": {
-            "type": "string",
-            "example": "District description",
-            "description": "Optional. District description"
-          }
-        }
-      },
-      "Project": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 1,
-            "description": "Project ID",
-            "minimum": 0
-          },
-          "name": {
-            "type": "string",
-            "maxLength": 255,
-            "example": "REFINE \"Equiti Gate\"",
-            "description": "Name of the project"
-          },
-          "districtId": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0,
-            "description": "ID of the district where the project is located"
-          },
-          "developerId": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0,
-            "description": "ID of the developer"
-          },
-          "sellerId": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0,
-            "description": "Optional. ID of the agency selling the project"
-          },
-          "serviceCharge": {
-            "type": "number",
-            "example": 100,
-            "maximum": 65535,
-            "minimum": 0,
-            "description": "Optional. \nService charge - the recurring fee paid by property owners within a real estate project in the \nUAE to cover the cost of shared facilities and services provided by the property management, \nexpressed in AED per year.\n"
-          },
-          "handoverDate": {
-            "type": "string",
-            "format": "date",
-            "example": "2026-06-01",
-            "description": "Optional. \nApproximate date of handover. In most cases, the date is approximate and typically represents \na quarter.\n"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "available",
-              "sold_out",
-              "launch"
-            ],
-            "example": "available",
-            "description": "Project status. \"available\" - units are available. \"sold_out\" - all units are out of stock. \n\"launch\" - new launch.\n"
-          },
-          "eoi": {
-            "type": "number",
-            "example": 50000,
-            "description": "Optional.\nThe eoi field represents the Expression of Interest submitted by potential buyers or investors \nfor a property. It indicates the initial interest and proposed terms of purchase.\n"
-          },
-          "startOfSales": {
-            "type": "string",
-            "format": "date",
-            "example": "2024-05-01",
-            "description": "Optional. The start date for the project's sales"
-          },
-          "description": {
-            "type": "string",
-            "maxLength": 2000,
-            "example": "Zuha Island is a secluded resort complex",
-            "description": "Optional. Description of the project"
-          },
-          "amenities": {
-            "type": "array",
-            "items": {
-              "type": "integer"
-            },
-            "description": "Optional. List of amenity IDs available in the project"
-          }
-        }
-      },
-      "Developer": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 1,
-            "description": "Developer ID",
-            "minimum": 0
-          },
-          "name": {
-            "type": "string",
-            "maxLength": 255,
-            "example": "Emaar Properties",
-            "description": "Name of Developer"
-          },
-          "description": {
-            "type": "string",
-            "example": "Developer description",
-            "description": "Optional. The field contains a description of the developer"
-          },
-          "logo": {
-            "type": "string",
-            "format": "uri",
-            "example": "https://cdn.geniemap.net/2024/03/21/logo.png",
-            "description": "Optional. Contains the URL link to the developer's logo"
-          }
-        }
-      },
-      "Amenity": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 1,
-            "description": "Amenity ID",
-            "minimum": 0
-          },
-          "name": {
-            "type": "string",
-            "maxLength": 255,
-            "example": "BBQ",
-            "description": "Name of the amenity"
-          },
-          "code": {
-            "type": "string",
-            "maxLength": 255,
-            "example": "bbq",
-            "description": "Unique amenity code"
-          },
-          "icon": {
-            "type": "string",
-            "format": "uri",
-            "description": "Optional. URL to the amenity's icon"
-          }
-        }
-      },
-      "UnitType": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 1,
-            "description": "Unit type ID",
-            "minimum": 0
-          },
-          "name": {
-            "type": "string",
-            "maxLength": 255,
-            "example": "Villa",
-            "description": "Name of unit type"
-          },
-          "code": {
-            "type": "string",
-            "maxLength": 255,
-            "description": "Unique unit type code"
-          }
-        }
-      },
-      "Finish": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 1,
-            "example": 1,
-            "description": "Finishing ID"
-          },
-          "name": {
-            "type": "string",
-            "maxLength": 255,
-            "example": "Luxe",
-            "description": "Finishing name"
-          },
-          "description": {
-            "type": "string",
-            "description": "Optional. Description of the finishing type"
-          }
-        }
-      },
-      "UnitLayout": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 1,
-            "description": "Unit layout ID",
-            "minimum": 0
-          },
-          "name": {
-            "type": "string",
-            "maxLength": 255,
-            "example": "3 BR",
-            "description": "Name of unit layout (e.g., 1 BR, 2 BR, Studio)"
-          },
-          "bedrooms": {
-            "type": "integer",
-            "minimum": 0,
-            "description": "Number of bedrooms in the layout"
-          },
-          "bathrooms": {
-            "type": "integer",
-            "minimum": 0,
-            "description": "Number of bathrooms in the layout"
-          },
-          "area": {
-            "type": "number",
-            "minimum": 0,
-            "description": "Total area of the unit in square feet"
-          },
-          "image": {
-            "type": "string",
-            "format": "uri",
-            "description": "Optional. URL to the layout floor plan image"
-          }
-        }
-      },
-      "Unit": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 1,
-            "description": "Unit ID",
-            "minimum": 0
-          },
-          "projectId": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0,
-            "description": "ID of the project this unit belongs to"
-          },
-          "unitTypeId": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0,
-            "description": "ID of the unit type (e.g., Apartment, Villa)"
-          },
-          "layoutId": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0,
-            "description": "ID of the unit layout (e.g., 1 BR, 2 BR)"
-          },
-          "price": {
-            "type": "number",
-            "minimum": 0,
-            "description": "Price of the unit in AED"
-          },
-          "area": {
-            "type": "number",
-            "minimum": 0,
-            "description": "Area of the unit in square feet"
-          },
-          "pricePerSqFt": {
-            "type": "number",
-            "minimum": 0,
-            "description": "Price per square foot in AED"
-          },
-          "typeOfSale": {
-            "type": "string",
-            "enum": [
-              "offPlan",
-              "resale"
-            ],
-            "description": "Whether the unit is off-plan or resale"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "available",
-              "reserved",
-              "sold"
-            ],
-            "description": "Current status of the unit"
-          }
-        }
-      },
-      "User": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "avatarId": {
-            "type": "string"
-          }
-        }
-      },
-      "CreateUser": {
-        "type": "object",
-        "required": [
-          "name",
-          "email",
-          "password"
-        ],
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "avatarId": {
-            "type": "string"
-          }
-        }
-      },
-      "UpdateUser": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "avatarId": {
-            "type": "string"
-          }
-        }
-      },
-      "Image": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "contentType": {
-            "type": "string"
-          },
-          "size": {
-            "type": "integer"
-          }
-        }
-      },
-      "JumpcloudScheduledUserstateResult": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The ID of the scheduled state change request."
-          },
-          "userId": {
-            "type": "string",
-            "description": "The ID of the System User this entry is specific to."
-          },
-          "state": {
-            "type": "string",
-            "description": "The state to set for the user."
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The timestamp for when the state change will occur."
-          },
-          "activationEmailOverride": {
-            "type": "string",
-            "nullable": true,
-            "description": "An email address that overrides the system user's primary email address for activation email delivery."
-          },
-          "sendActivationEmails": {
-            "type": "boolean",
-            "nullable": true,
-            "description": "Determines if activation emails are sent."
-          }
-        }
-      },
-      "JumpcloudBulkScheduledStatechangeCreate": {
-        "type": "object",
-        "required": [
-          "user_ids",
-          "state",
-          "start_date"
-        ],
-        "properties": {
-          "user_ids": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "An array of system user IDs."
-          },
-          "state": {
-            "type": "string",
-            "enum": [
-              "ACTIVATED",
-              "SUSPENDED"
-            ],
-            "description": "The state to set for the users."
-          },
-          "start_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The timestamp for when the state change will occur."
-          },
-          "activation_email_override": {
-            "type": "string",
-            "nullable": true,
-            "description": "An email address that overrides the system user's primary email address for activation email delivery."
-          },
-          "send_activation_emails": {
-            "type": "boolean",
-            "nullable": true,
-            "description": "Determines if activation emails are sent."
-          }
-        }
-      },
-      "AllProjectData": {
-        "type": "object",
-        "properties": {
-          "developer": {
-            "type": "string",
-            "description": "Developer name",
-            "example": "Emaar"
-          },
-          "project": {
-            "type": "string",
-            "description": "Original project name/identifier",
-            "example": "Downtown Views"
-          },
-          "city": {
-            "type": "string",
-            "description": "City name",
-            "example": "Dubai"
-          },
-          "community": {
-            "type": "string",
-            "description": "Community name",
-            "example": "Downtown Dubai"
-          },
-          "subCommunity": {
-            "type": "string",
-            "description": "Sub-Community name",
-            "example": "Burj Khalifa District"
-          },
-          "campaignName": {
-            "type": "string",
-            "description": "Campaign name for the project",
-            "example": "Summer Promotion 2024"
-          },
-          "projectLink": {
-            "type": "string",
-            "format": "uri",
-            "description": "Link to the project details page",
-            "example": "https://providentestate.com/dubai/downtown-dubai/downtown-views"
-          },
-          "projectName": {
-            "type": "string",
-            "description": "Specific project name (distinct from 'project' field)",
-            "example": "Equiti Gate Tower 1"
-          },
-          "integrately": {
-            "type": "string",
-            "description": "Integrately reference or status information",
-            "example": "CampaignRef123"
-          },
-          "propertyType": {
-            "type": "string",
-            "description": "Type of property",
-            "example": "Apartment"
-          },
-          "leadType": {
-            "type": "string",
-            "nullable": true,
-            "description": "Type of lead",
-            "example": "Buyer"
-          }
-        },
-        "description": "Data for creating a project link. All fields are optional, but at least one field must be provided."
-      },
-      "FullProjectData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique project ID (e.g., P1234567)",
-            "example": "P1234567"
-          },
-          "developer": {
-            "type": "string",
-            "nullable": true,
-            "description": "Developer name"
-          },
-          "project": {
-            "type": "string",
-            "nullable": true,
-            "description": "Original project name/identifier"
-          },
-          "city": {
-            "type": "string",
-            "nullable": true,
-            "description": "City name"
-          },
-          "community": {
-            "type": "string",
-            "nullable": true,
-            "description": "Community name"
-          },
-          "subCommunity": {
-            "type": "string",
-            "nullable": true,
-            "description": "Sub-Community name"
-          },
-          "campaignName": {
-            "type": "string",
-            "nullable": true,
-            "description": "Campaign name for the project"
-          },
-          "projectLink": {
-            "type": "string",
-            "format": "uri",
-            "nullable": true,
-            "description": "Link to the project details page"
-          },
-          "projectName": {
-            "type": "string",
-            "nullable": true,
-            "description": "Specific project name"
-          },
-          "integrately": {
-            "type": "string",
-            "nullable": true,
-            "description": "Integrately reference"
-          },
-          "propertyType": {
-            "type": "string",
-            "nullable": true,
-            "description": "Type of property"
-          },
-          "lead_type": {
-            "type": "string",
-            "nullable": true,
-            "description": "Type of lead."
-          },
-          "original_url": {
-            "type": "string",
-            "format": "uri",
-            "nullable": true,
-            "description": "The full original WhatsApp URL that was shortened."
-          },
-          "short_url": {
-            "type": "string",
-            "format": "uri",
-            "nullable": true,
-            "description": "The shortened Bitly URL."
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Timestamp of when the project entry was created."
-          }
-        },
-        "description": "Represents a single project entry retrieved from the database."
-      },
-      "PortalUserDataResponse": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "example": "User data retrieved successfully"
-          },
-          "data": {
-            "$ref": "#/components/schemas/UserDataPayload"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "UserDataPayload": {
-        "type": "object",
-        "properties": {
-          "user_details": {
-            "$ref": "#/components/schemas/UserDetails"
-          },
-          "found_units_summary": {
-            "$ref": "#/components/schemas/UnitsSummarization"
-          },
-          "missing_units_summary": {
-            "$ref": "#/components/schemas/UnitsSummarization"
-          }
-        }
-      },
-      "UserDetails": {
-        "type": "object",
-        "description": "Detailed information about the user from 'users' or 'users_deleted' table.",
-        "properties": {
-          "user_id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 12345
-          },
-          "role": {
-            "type": "string",
-            "nullable": true,
-            "example": "agent"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true,
-            "example": "John Doe"
-          },
-          "username": {
-            "type": "string",
-            "nullable": true,
-            "example": "johndoe"
-          },
-          "phone_number": {
-            "type": "string",
-            "nullable": true,
-            "example": "+1234567890"
-          },
-          "manager": {
-            "type": "string",
-            "nullable": true,
-            "example": "Jane Smith"
-          },
-          "allowed_areas": {
-            "type": "string",
-            "nullable": true,
-            "example": "Downtown, Marina"
-          },
-          "geolimit": {
-            "type": "string",
-            "nullable": true
-          },
-          "requests": {
-            "type": "integer",
-            "nullable": true
-          },
-          "limit_req": {
-            "type": "integer",
-            "nullable": true
-          },
-          "abs_requests": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "floorplan_requests": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "floorplan_limit": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "floorplan_abs": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "owner_requests": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "owner_limit": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "owner_abs": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "bitrix_id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 67890,
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "nullable": true,
-            "example": "john.doe@example.com"
-          },
-          "source_table": {
-            "type": "string",
-            "enum": [
-              "users",
-              "users_deleted"
-            ],
-            "description": "The table from which the user details were sourced.",
-            "example": "users"
-          }
-        }
-      },
-      "UnitsSummarization": {
-        "type": "object",
-        "description": "Summary of unit search activities.",
-        "properties": {
-          "by_date": {
-            "type": "object",
-            "description": "Summary of unit searches, grouped by date.  Each key is a date string (YYYY-MM-DD).  This field is omitted if the 'summary=t' parameter is used.\n",
-            "additionalProperties": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/LocationSummaryItem"
-              }
-            },
-            "nullable": true
-          },
-          "period_summary": {
-            "$ref": "#/components/schemas/PeriodSummaryItem"
-          }
-        }
-      },
-      "PeriodSummaryItem": {
-        "type": "object",
-        "description": "Overall summary for a specified period.",
-        "properties": {
-          "period": {
-            "type": "string",
-            "description": "The date range for which the summary is provided (e.g., \"YYYY-MM-DD to YYYY-MM-DD\", \"From YYYY-MM-DD\", \"All Time\").",
-            "example": "2024-01-01 to 2024-01-31"
-          },
-          "absolute_total_searches": {
-            "type": "integer",
-            "description": "Total number of searches within this period.",
-            "example": 150
-          },
-          "by_location": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LocationSummaryItem"
-            }
-          }
-        }
-      },
-      "LocationSummaryItem": {
-        "type": "object",
-        "description": "Summary of searches for a specific location.",
-        "properties": {
-          "emirate": {
-            "type": "string",
-            "nullable": true,
-            "example": "Dubai"
-          },
-          "area": {
-            "type": "string",
-            "nullable": true,
-            "example": "Downtown Dubai"
-          },
-          "sub_area": {
-            "type": "string",
-            "nullable": true,
-            "example": "Burj Khalifa District"
-          },
-          "sub_sub_area": {
-            "type": "string",
-            "nullable": true,
-            "example": "Tower A"
-          },
-          "total_searches": {
-            "type": "integer",
-            "example": 25
-          }
-        }
-      },
-      "ErrorResponse": {
-        "type": "object",
-        "properties": {
-          "statusCode": {
-            "type": "integer",
-            "example": 404
-          },
-          "message": {
-            "type": "string",
-            "example": "User with Bitrix ID 123 not found."
-          },
-          "error": {
-            "type": "string",
-            "nullable": true,
-            "example": "Not Found"
-          }
-        }
       }
     },
     "responses": {
@@ -5767,10 +2429,5 @@
         }
       }
     }
-  },
-  "x-logo": {
-    "url": "https://public.provident.ae/provident-logo.png",
-    "altText": "Provident Logo"
-  },
-  "x-postman-oauth2-client-credentials-in-body": true
+  }
 }

@@ -7,6 +7,13 @@ export default () => ({
     password: process.env.DATABASE_PASSWORD || '',
     database: process.env.DATABASE_NAME || '',
   },
+  dubaiunitfinder_database: {
+    host: process.env.DUF_DATABASE_HOST || process.env.DATABASE_HOST || '',
+    port: process.env.DUF_DATABASE_PORT ? parseInt(process.env.DUF_DATABASE_PORT, 10) : (process.env.DATABASE_PORT ? parseInt(process.env.DATABASE_PORT, 10) : 5432),
+    username: process.env.DUF_DATABASE_USER || process.env.DATABASE_USER || '',
+    password: process.env.DUF_DATABASE_PASSWORD || process.env.DATABASE_PASSWORD || '',
+    database: 'dubaiunitfinder',
+  },
   jwt: {
     secret: process.env.JWT_SECRET || '',
     expiresIn: process.env.JWT_EXPIRES_IN || '',

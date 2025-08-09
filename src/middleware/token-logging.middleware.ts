@@ -100,6 +100,8 @@ export class TokenLoggingMiddleware implements NestMiddleware {
         ...(tokenInfo as Record<string, any>)
       });
 
+      // Logger.log(responseBody, 'responseBody');
+
       return originalEnd.apply(res, arguments);
     };
     res.end = newEnd;

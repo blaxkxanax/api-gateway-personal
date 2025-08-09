@@ -535,14 +535,15 @@ async function bootstrap() {
     .setDescription('API Gateway with OAuth2.0 Client Credentials Flow')
     .setVersion('2.0.0')
     .addBearerAuth()
-    .addServer('https://api.provident.ae/v2', 'Production server')
-    .addServer('https://api.noxum.dev/v2', 'Development server')
+    .addServer('http://localhost:9000/v2', 'Production server')
+    .addServer('http://localhost:9000/v2', 'Development server')
     .addServer('http://localhost:9000', 'Local development')
     .addTag('oAuth2', 'OAuth2.0 authentication endpoints')
     .addTag('oauth2-clients', 'OAuth2.0 client management endpoints')
     .addTag('oauth2-tokens', 'OAuth2.0 token management endpoints')
     .addTag('health', 'Health check endpoints')
-    .addTag('test', 'Test endpoints for API validation')
+    .addTag('noxum', 'Noxum data endpoints for properties, floorplans, and owners')
+    .addTag('dubaiunitfinder', 'Dubai Unit Finder platform endpoints for user management, subscriptions, and history')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

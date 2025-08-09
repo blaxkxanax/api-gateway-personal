@@ -11,13 +11,13 @@ export class CreateClientDto {
   @ApiProperty({ 
     type: [String], 
     description: 'List of allowed redirect URIs',
-    default: ['https://api.provident.ae/auth/callback']
+    default: ['http://localhost:9000/auth/callback']
   })
   @IsArray()
   @IsUrl({}, { each: true })
   @ArrayMinSize(1)
   @IsOptional()
-  redirectUris?: string[] = ['https://api.provident.ae/auth/callback'];
+  redirectUris?: string[] = ['http://localhost:9000/auth/callback'];
 
   @ApiProperty({ type: [String], description: 'List of allowed scopes' })
   @IsArray()
